@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { errorResponse, successResponse } from "@/lib/api/response";
+import paymentServiceManager from '@/machines/payService';
 
 export async function GET(request: NextRequest) {
   try {
@@ -56,7 +57,7 @@ export async function GET(request: NextRequest) {
     });
 
     // 创建支付服务实例
-    // await paymentServiceManager.createInstance(created.id, "user123");
+    await paymentServiceManager.createInstance(created.id, "user123");
 
     // 构建返回URL
     const output = {
