@@ -1,0 +1,17 @@
+{
+  "name": "checkout",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "guissy <guissy@qq.com>",
+  "license": "ISC",
+  "packageManager": "pnpm@10.6.5",
+  "dependencies": {
+    "@excalidraw/excalidraw": "^0.18.0",
+    "@radix-ui/react-tooltip": "^1.1.8"
+  }
+}
