@@ -14,7 +14,7 @@ const PATHS_WITHOUT_NAV = ["/404"]; //['/success', '/complete', '/error'];
 const Provider: React.FC<PropsWithChildren> = ({ children }) => {
   const pathname = usePathname();
   const shouldShowNav = !PATHS_WITHOUT_NAV.some(path => pathname?.startsWith(path));
-  console.log(pathname, "☁ ☁ ☁ ☁ ☁ ☁🐭🐭🐭");
+  console.log(pathname, "Provider: 🐭🐭🐭");
   return (
     <TooltipProvider>
       {shouldShowNav && <Navigation />}

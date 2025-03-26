@@ -3,13 +3,13 @@ export const isProd = () => {
 };
 
 const getApi = () => {
-  return "http://localhost:4000";
-  // return "http://localhost:3000/api";
+  // return "http://localhost:4000";
+  return "http://localhost:3000/api";
 };
 
 export const getLogApi = () => {
-  return "http://localhost:4000";
-  // return "http://localhost:3000/api";
+  // return "http://localhost:4000";
+  return "http://localhost:3000/api";
 };
 
 export const getNmiApi = () => {
