@@ -1,6 +1,6 @@
 import { FpResponse } from "./api.type";
-import { printError } from "./api.error";
-// import { reportResource } from "./reportArms";
+import { APIError, printError } from "./api.error";
+import { reportResource } from "./reportArms";
 import { SuccessResponse } from "./api.mock";
 import { processSSEChunk } from "./deepseekParser";
 import { getStorage, setStorage } from '@/lib/storage';
@@ -62,7 +62,7 @@ export function createApiRequest<T, S = Record<string, unknown> | object>(
     queryParams,
     name = url.split("?").shift()!.split("/").filter(Boolean).pop() ?? "api",
     protobufDecoder,
-    errorHandler = printError,
+    errorHandler = (err) => printError<T>(err as APIError),
     cacheKey,
     cacheCondition,
     timeoutCode = "40027",
@@ -92,9 +92,9 @@ export function createApiRequest<T, S = Record<string, unknown> | object>(
   const fullUrl = queryString ? `${url}?${queryString}` : url;
 
   // 性能标记开始
-  // let response: FpResponse<T> | null = null;
-  // const startTime = Date.now();
-  // let responseStatus = 0;
+  let response: FpResponse<T> | null = null;
+  const startTime = Date.now();
+  let responseStatus = 0;
   performance.mark(`${name}Start`);
 
   // 设置Accept头
@@ -125,7 +125,7 @@ export function createApiRequest<T, S = Record<string, unknown> | object>(
   // 发送请求
   return fetch(fullUrl, requestOptions)
     .then(async (res) => {
-      // responseStatus = res.status;
+      responseStatus = res.status;
       const contentType = res.headers.get("content-type") || "";
 
       if (contentType.includes("application/protobuf") && protobufDecoder) {
@@ -179,39 +179,40 @@ export function createApiRequest<T, S = Record<string, unknown> | object>(
         });
       }
 
-      // response = transformedRes;
+      response = transformedRes;
       return transformedRes;
     })
     .catch((e) => errorHandler(e))
     // TODO: 暂时屏蔽上报
-    // .finally(() => {
-    //   // 性能标记结束
-    //   performance.mark(`${name}End`);
-    //   performance.measure(`${name}Time`, `${name}Start`, `${name}End`);
-    //   const duration = performance
-    //     .getEntriesByName(`${name}Time`)[0]
-    //     .duration?.toFixed(0);
-    //   const responseTime = Date.now();
+    .finally(() => {
+      // 性能标记结束
+      performance.mark(`${name}End`);
+      performance.measure(`${name}Time`, `${name}Start`, `${name}End`);
+      const duration = performance
+        .getEntriesByName(`${name}Time`)[0]
+        .duration?.toFixed(0);
+      const responseTime = Date.now();
 
-    //   // 报告资源
-    //   if (fullUrl.includes("checkoutLog/add")) {
-    //     // console.log("ignore checkoutLog/add");
-    //   } else {
-    //     reportResource(name, {
-    //       url: fullUrl,
-    //       method,
-    //       responseStatus,
-    //       requestTime: startTime,
-    //       responseTime,
-    //       duration: parseInt(duration || "0"),
-    //       requestHeader: JSON.stringify(headers),
-    //       requestBody: body ? JSON.stringify(body) : queryString,
-    //       responseMessage: JSON.stringify(response),
-    //       remark: response?.msg ?? "",
-    //       success: response?.success ? 1 : 0,
-    //     });
-    //   }
-    // });
+      // 报告资源
+      if (fullUrl.includes("checkoutLog/add")) {
+        // console.log("ignore checkoutLog/add");
+      } else {
+        reportResource(name, {
+          url: fullUrl,
+          method,
+          responseStatus,
+          requestTime: startTime,
+          responseTime,
+          duration: parseInt(duration || "0"),
+          requestHeader: JSON.stringify(headers),
+          requestBody: body ? JSON.stringify(body) : queryString,
+          responseMessage: JSON.stringify(response),
+          remark: response?.msg ?? "",
+          success: response?.success ? 1 : 0,
+        });
+      }
+      return response as FpResponse<T>;
+    });
 }
 
 /**

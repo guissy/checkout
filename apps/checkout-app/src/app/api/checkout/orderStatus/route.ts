@@ -67,7 +67,7 @@ export async function GET(request: Request) {
         previousStatus: order.status,
       });
     }
-
+    console.log("🐌🐌🐌", isSuccess, isPending, res, order.id);
     // 构建支付数据
     const paymentData = {
       acquiringMode: "checkout",
