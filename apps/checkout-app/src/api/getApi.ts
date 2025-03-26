@@ -4,12 +4,12 @@ export const isProd = () => {
 
 const getApi = () => {
   // return "http://localhost:4000";
-  return "http://localhost:3000/api";
+  return `${process.env.NEXT_PUBLIC_API_BASE_URL}`;
 };
 
 export const getLogApi = () => {
   // return "http://localhost:4000";
-  return "http://localhost:3000/api";
+  return `${process.env.NEXT_PUBLIC_API_BASE_URL}`;
 };
 
 export const getNmiApi = () => {
