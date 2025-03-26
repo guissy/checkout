@@ -5,6 +5,7 @@ import type { FpResponse } from "./api.type";
 import { SuccessResponse } from "./api.mock";
 import gotoTimeout from "../utils/gotoTimeout";
 import { PaymentMethodList } from "./generated/payment_method";
+import { getStorage, setStorage } from '@/lib/storage';
 
 const resolveNeedFields = (it: { regular?: string }) => {
   let needFieldName: string[] = [];
@@ -116,7 +117,7 @@ export default async function fetchPaymentList(
 ): Promise<FpResponse<PayMethod[]>> {
   const tokenId = data.token?.replace(/-/g, "");
   const tokenCountryId = tokenId + data.countryCode;
-  const str = window.sessionStorage.getItem("p_m_p");
+  const str = getStorage("p_m_p");
 
   // 检查会话存储中的缓存
   if (str && str.startsWith(tokenCountryId)) {
@@ -158,7 +159,7 @@ export default async function fetchPaymentList(
 
         // 处理成功后缓存结果
         if (Array.isArray(transformedRes?.data) && transformedRes.data.length > 0) {
-          window.sessionStorage.setItem(
+          setStorage(
             "p_m_p",
             tokenId + (data.countryCode || "__") + JSON.stringify(transformedRes.data),
           );

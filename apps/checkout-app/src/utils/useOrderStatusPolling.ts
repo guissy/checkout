@@ -6,6 +6,7 @@ import { isDebug } from './isDev';
 import gotoTimeout from './gotoTimeout';
 import { useRouter } from 'next/navigation';
 import { useOrderStatusStream } from '@/api/fetchOrderStatusStream';
+import { setStorage } from '@/lib/storage';
 
 // 支付状态轮询 Hook
 export const useOrderStatusPolling = (reference: string | null, handleSuccess: (data: OrderStatus, reference: string) => void, ctx: string) => {
@@ -39,9 +40,9 @@ export const useOrderStatusPolling = (reference: string | null, handleSuccess: (
           : `https://${data.origin}`;
 
         if (data?.downstreamRedirectUrl) {
-          window.sessionStorage.setItem('returnUrl', data?.downstreamRedirectUrl);
+          setStorage('returnUrl', data?.downstreamRedirectUrl);
         } else if (data?.origin) {
-          window.sessionStorage.setItem('returnUrl', origin);
+          setStorage('returnUrl', origin);
         }
 
         switch (status) {

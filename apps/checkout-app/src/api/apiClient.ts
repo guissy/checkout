@@ -3,6 +3,7 @@ import { printError } from "./api.error";
 // import { reportResource } from "./reportArms";
 import { SuccessResponse } from "./api.mock";
 import { processSSEChunk } from "./deepseekParser";
+import { getStorage, setStorage } from '@/lib/storage';
 
 type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
 type ResponseFormat = "json" | "protobuf";
@@ -218,7 +219,7 @@ export function createApiRequest<T, S = Record<string, unknown> | object>(
  */
 function getCachedData<T>(key: string): T | null {
   try {
-    const value = window.sessionStorage.getItem(key);
+    const value = getStorage(key);
     if (value) {
       return JSON.parse(value) as T;
     }
@@ -235,7 +236,7 @@ function setCachedData<T>(options: CacheOptions<T>): void {
   try {
     const { key, value, condition } = options;
     if (!condition || condition(value)) {
-      window.sessionStorage.setItem(key, JSON.stringify(value));
+      setStorage(key, JSON.stringify(value));
     }
   } catch (error) {
     console.error("Error setting cached data:", error);

@@ -4,6 +4,7 @@ import { clearSessionStorage } from "@/utils/gotoTimeout";
 // import { Trans } from "@lingui/react";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { getStorage, removeStorage } from '@/lib/storage';
 
 type Props = {
   token: string
@@ -18,7 +19,7 @@ const ErrorAction: React.FC<Props> = ({ token, reference, isHome }) => {
         href={"javascript:history.back()"}
         onClick={() => {
           clearSessionStorage();
-          const returnUrl = window.sessionStorage.getItem("returnUrl");
+          const returnUrl = getStorage("returnUrl");
           if (returnUrl) {
             window.location.href = returnUrl;
           }
@@ -32,10 +33,10 @@ const ErrorAction: React.FC<Props> = ({ token, reference, isHome }) => {
         onClick={() => {
           if (isHome || (!token && !reference)) {
             window.location.reload()
-          }  else { 
+          }  else {
             router.push(`/?token=${token}`);
           }
-          window.sessionStorage.removeItem("route");
+          removeStorage("route");
         }}
         className="px-6 py-1.5 text-center bg-primary rounded-lg flex-1 max-w-[214px] cursor-pointer select-none"
       >

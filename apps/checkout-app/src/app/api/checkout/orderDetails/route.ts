@@ -34,6 +34,7 @@ export async function GET(request: NextRequest) {
     // 构建输出数据
     const output1 = {
       ...order,
+      processingCurrency: order.amountCurrency,
       pspReference: "",
       isexchange: true,
       returnUrl: `http://localhost:3000/?token=${order.id}`,

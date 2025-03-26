@@ -12,7 +12,7 @@ export interface PaymentOrderRes {
     schemeUrl?: string;
     payUrl?: string;
     method: string;
-    type: "redirect" | "pin" | "avs" | "sms" | "qrcode";
+    type: "redirect" | "pin" | "avs" | "sms" | "qrcode" | "ussd";
     qrCode: string;
     message: string;
     fields: string[];

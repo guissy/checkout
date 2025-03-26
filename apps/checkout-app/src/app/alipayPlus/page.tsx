@@ -16,6 +16,7 @@ import isPhone from '../../utils/isPhone';
 import { useOrderStatusPolling } from '../../utils/useOrderStatusPolling';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
+import { getStorage } from '@/lib/storage';
 
 type OrderType = PaymentOrderRes & { amount: { value: number, currency: string } }
 
@@ -29,7 +30,7 @@ const AliQrPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [payInfo, setPayInfo] = useState<PaymentInfo>();
   useEffect(() => {
-    const data = window.sessionStorage.getItem('btr') || '{}';
+    const data = getStorage('btr') || '{}';
     const decryptedData = JSON.parse(data);
     console.log(data)
     if (typeof decryptedData === 'object' && decryptedData !== null) {
@@ -109,12 +110,12 @@ const AliQrPage: React.FC = () => {
               {currentPay?.platformName}
             </div>
           </div>
-          {loading ?
+          {loading || !dataUrl ?
             <div className={"h-[70vw] max-h-[320px] flex justify-center items-center"}>
               <LoadingSpin className={"size-[20px]"}/>
             </div>
             :
-            <Image src={dataUrl || ""} className={'mx-auto w-[70vw] max-w-[320px] min-h-24 leading-[16rem] mt-2'}
+            <img src={dataUrl} className={'mx-auto w-[70vw] max-w-[320px] min-h-24 leading-[16rem] mt-2'}
                  alt="QR Code"/>}
           <p className={"text-2xl font-bold text-[#133E67] mb-8"}>
             <Money

@@ -1,4 +1,5 @@
 import { isDebug } from "./isDev";
+import { removeStorage } from '@/lib/storage';
 
 function gotoTimeout(): void {
   try {
@@ -13,20 +14,20 @@ export function clearSessionStorage(): void {
     console.warn("!!!Clearing session storage except debug!!!");
     return;
   }
-  window.sessionStorage.removeItem("o_d_o");
-  window.sessionStorage.removeItem("p_m_p");
-  window.sessionStorage.removeItem("f_x_f");
-  window.sessionStorage.removeItem("formValue");
-  window.sessionStorage.removeItem("order");
-  window.sessionStorage.removeItem("route");
-  window.sessionStorage.removeItem("country");
-  window.sessionStorage.removeItem("currency");
-  window.sessionStorage.removeItem("outAmount");
-  window.sessionStorage.removeItem("currentPayN");
-  window.sessionStorage.removeItem("currentPay");
-  window.sessionStorage.removeItem("otpFields");
-  window.sessionStorage.removeItem("optRegular");
-  window.sessionStorage.removeItem("btr");
+  removeStorage("o_d_o");
+  removeStorage("p_m_p");
+  removeStorage("f_x_f");
+  removeStorage("formValue");
+  removeStorage("order");
+  removeStorage("route");
+  removeStorage("country");
+  removeStorage("currency");
+  removeStorage("outAmount");
+  removeStorage("currentPayN");
+  removeStorage("currentPay");
+  removeStorage("otpFields");
+  removeStorage("optRegular");
+  removeStorage("btr");
 }
 
 export default gotoTimeout;

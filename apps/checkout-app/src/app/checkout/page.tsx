@@ -1,7 +1,6 @@
 'use client';
 
 import React, {
-  PropsWithChildren,
   StrictMode,
   Suspense,
   useCallback,
@@ -51,6 +50,8 @@ import { useCurrencyInfo } from './hooks/useCurrencyInfo';
 import { useCountryInfo } from './hooks/useCountryInfo';
 import { getReferenceValue } from './referenceUtil';
 import { useRouter } from 'next/navigation';
+import ErrorBoundary from '@/app/checkout/ErrorBoundary';
+import { removeStorage } from '@/lib/storage';
 
 const indexEndTime = Date.now();
 const routerInitTime = Date.now();
@@ -61,34 +62,9 @@ const LoadingSpinner = () => (
 );
 
 
-interface ErrorBoundaryState {
-  hasError: boolean;
-}
-
-class ErrorBoundary extends React.Component<PropsWithChildren, ErrorBoundaryState> {
-  constructor(props: PropsWithChildren) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  static getDerivedStateFromError() {
-    return { hasError: true };
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return <ErrorRetry
-        detail={i18n.t({ id: "error.general" })}
-        token={"page"}
-        reference='page'
-      />;
-    }
-    return this.props.children;
-  }
-}
 
 const FpCheckout: React.FC = () => {
-  i18n.activate("zh");
+  // i18n.activate("zh");
   const selfRef = useRef<HTMLDivElement | null>(null);
   const [formValue, setFormValue] = useSessionState<FormValue>("formValue", {} as FormValue);
   const [route, setRoute] = useSessionState<string>("route", undefined);
@@ -168,7 +144,8 @@ const FpCheckout: React.FC = () => {
 
   const { submitting, setSubmitting, redirecting, setRedirecting } = useFormSubmitState();
 
-  const { currencyInfo } = useCurrencyInfo(country, currentPay, currency, setCurrency);
+  useCurrencyInfo(country, currentPay, currency, setCurrency);
+  const currencyInfo = currentPay?.currencyInfo;
 
   const {
     validateResult,
@@ -243,7 +220,7 @@ const FpCheckout: React.FC = () => {
       setSubmitting(false);
       setRedirecting(false);
       if (!window.location.hash) {
-        window.sessionStorage.removeItem('route');
+        removeStorage('route');
         window.location.reload();
       }
     });

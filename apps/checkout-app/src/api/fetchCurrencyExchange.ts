@@ -4,6 +4,7 @@ import getApi from "./getApi";
 import gotoTimeout from "../utils/gotoTimeout";
 import { ExchangeTransactionRes } from "./generated/exchange_transaction";
 import { SuccessResponse } from "./api.mock";
+import { getStorage, setStorage } from '@/lib/storage';
 
 export type CurrencyExchangeInfo = {
   exRate: number;
@@ -22,7 +23,7 @@ export default async function fetchCurrencyExchange(
 ): Promise<FpResponse<CurrencyExchangeInfo>> {
   // 检查是否使用缓存
   const tokenId = (data.token as string)?.replace(/-/g, "");
-  const str = window.sessionStorage.getItem("f_x_f");
+  const str = getStorage("f_x_f");
   if (str && str.startsWith(tokenId) && data.fetch === "cache") {
     try {
       return SuccessResponse(JSON.parse(str.slice(tokenId.length)));
@@ -69,7 +70,7 @@ export default async function fetchCurrencyExchange(
             } as CurrencyExchangeInfo,
           };
         }
-        window.sessionStorage.setItem(
+        setStorage(
           "f_x_f",
           tokenId + JSON.stringify(res?.data),
         );

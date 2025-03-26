@@ -1,17 +1,18 @@
 import { useEffect } from 'react';
 import fetchCheckStatus from '../api/fetchCheckStatus';
 import { getReferenceValue } from '../app/checkout/referenceUtil';
+import { getStorage, removeStorage } from '@/lib/storage';
 
-let cacheOrder: string | null = null; 
+let cacheOrder: string | null = null;
 if (globalThis.window) {
-  cacheOrder = window.sessionStorage.getItem("o_d_o");
+  cacheOrder = getStorage("o_d_o");
 }
 
 const fetchThenReload = (token: string, ctx: "Visible" | "Reload" | "PageShow" | "Loop") => {
   fetchCheckStatus({ token }, ctx).then(async (res) => {
     if (!res.success) {
-      window.sessionStorage.removeItem("o_d_o");
-      window.sessionStorage.removeItem("route");
+      removeStorage("o_d_o");
+      removeStorage("route");
       window.history.pushState({}, '', `/complete?reference=` + getReferenceValue());
       window.dispatchEvent(new Event('popstate'));
     }

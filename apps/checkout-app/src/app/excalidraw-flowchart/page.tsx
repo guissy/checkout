@@ -32,50 +32,60 @@ const MainMenu = dynamic(
   }
 );
 
+const CheckoutLogParamSchema = z.array(
+  z.object({
+    requestTag: z.string(),
+    requestMethod: z.string(),
+    requestUrl: z.string(),
+    // requestTime: z.string(),
+    responseTime: z.string(),
+    responseStatus: z.string(),
+    responseInterval: z.number(),
+  })
+); // 确保只允许定义的字段
+
 export default function ExcalidrawFlowchartPage() {
   const [logText, setLogText] = useState("");
-  const [mermaidText, setMermaidText] = useState('');
+  const [mermaidText, setMermaidText] = useState("");
   const excalidrawWrapperRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [excalidrawAPI, setExcalidrawAPI] =
     useState<ExcalidrawImperativeAPI | null>(null);
   const [loading, setLoading] = useState(false);
   const [logs, setLogs] = useState<CheckoutLog[]>([]);
-  const CheckoutLogParamSchema = z.array(
-    z.object({
-      requestTag: z.string(),
-      requestMethod: z.string(),
-      requestUrl: z.string(),
-      requestTime: z.string(),
-      responseTime: z.string(),
-      responseStatus: z.string(),
-      responseInterval: z.number(),
-    })
-  ); // 确保只允许定义的字段
+
   useEffect(() => {
     setLoading(true);
     fetchLogList().then((res) => {
       try {
         const logs = CheckoutLogParamSchema.safeParse(res.data);
+        if (logs.error) {
+          console.error("Error parsing logs to CSV:", logs.error);
+          return;
+        }
         const csv = parse(logs.data!);
-        setLogs(logs.data as unknown as CheckoutLog[]);
-        const logContent = csv.replaceAll("http://localhost:4000/", "");
-        const prompt = `Mermaid语法流程图示例：${checkoutFlowchart}\n\n根据以下CSV格式的API日志，请整理一个流程图，只需要流程图，不要包含任何其他解释说明！\n\n` +
+        if (csv.length > 0) {
+          setLogs(logs.data as unknown as CheckoutLog[]);
+          const logContent = csv;
+          const prompt =
+            `Mermaid语法流程图示例：${checkoutFlowchart}\n\n根据以下CSV格式的API日志，请整理一个流程图，只需要流程图，不要包含任何其他解释说明！\n\n` +
             logContent;
-        setLogText(prompt);
-        fetchDeepseek(prompt).then((content) => {
-          setMermaidText(
-            (content as unknown as string)
-              .replaceAll("```mermaid", "")
-              .replaceAll("```", "")
-          );
-          setLoading(false);
-        });
+          setLogText(prompt);
+          fetchDeepseek(prompt).then((res) => {
+            setMermaidText(
+              (res?.data || '')
+                .replaceAll("```mermaid", "")
+                .replaceAll("```", "")
+            );
+          });
+        }
       } catch (e) {
         console.error("Error parsing Mermaid to Excalidraw:", e);
+      } finally {
+        setLoading(false);
       }
     });
-  }, [CheckoutLogParamSchema]);
+  }, []);
   // 更新 Excalidraw 容器的尺寸
   useEffect(() => {
     const updateDimensions = () => {
@@ -195,7 +205,6 @@ export default function ExcalidrawFlowchartPage() {
           </div>
         </div>
       </div>
-
 
       {/* 说明部分 */}
       <div className="bg-white p-6 rounded-xl shadow-lg">

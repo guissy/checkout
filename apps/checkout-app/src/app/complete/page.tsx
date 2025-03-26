@@ -7,7 +7,6 @@ import { LoadingPage as Loading, SpinnerCycle } from 'checkout-ui';
 import { useOrderStatusPolling } from '../../utils/useOrderStatusPolling';
 
 const Complete: React.FC = () => {
-  i18n.activate("zh")
   const searchParams = useSearchParams();
   const reference = searchParams.get('reference');
   const { push: navigate } = useRouter()

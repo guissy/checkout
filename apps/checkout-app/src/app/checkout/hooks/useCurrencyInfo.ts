@@ -6,7 +6,7 @@ export const useCurrencyInfo = (
   country: CountryInfo | undefined,
   currentPay: PayMethod | undefined,
   currency: string,
-  setCurrency: (value: string) => void
+  setCurrency: React.Dispatch<React.SetStateAction<string>>,
 ) => {
   const currencyInfo = useMemo(() => {
     const countryCode = country?.iso2Code;
@@ -19,23 +19,24 @@ export const useCurrencyInfo = (
     };
 
     if (currentPay?.type === "cardafrica") {
-      const currency = countryCode ? CountryToCurrencyCode[countryCode as keyof typeof CountryToCurrencyCode] : '';
-      const currencyOk = currentPay?.currencyInfo?.find(it => it.currencyCode === currency);
-      if (currencyOk) {
-        return [currencyOk];
-      }
+      const mappedCurrency = countryCode ? CountryToCurrencyCode[countryCode as keyof typeof CountryToCurrencyCode] : '';
+      const currencyOk = currentPay?.currencyInfo?.find(it => it.currencyCode === mappedCurrency);
+      return currencyOk ? [currencyOk] : [];
     }
-    return currentPay?.currencyInfo;
-  }, [country, currentPay]);
+    return currentPay?.currencyInfo || [];
+  }, [country?.iso2Code, currentPay]); // Stable dependencies
 
   useEffect(() => {
-    if (currencyInfo?.[0]?.currencyCode) {
-      const hasFound = currencyInfo?.find((it) => it.currencyCode === currency);
-      if (!hasFound) {
-        setCurrency(currencyInfo?.[0]?.currencyCode as string);
+    if (currencyInfo?.length > 0) {
+      const firstCurrency = currencyInfo[0].currencyCode;
+      const hasFound = currencyInfo.some(it => it.currencyCode === currency);
+
+      // Only update if currency is different and not already in the list
+      if (!hasFound && firstCurrency) {
+        setCurrency(prevCurrency => prevCurrency !== firstCurrency ? firstCurrency : prevCurrency);
       }
     }
-  }, [currentPay, currency, currencyInfo, setCurrency]);
+  }, [currencyInfo, setCurrency]); // Removed currentPay from deps as it's already in currencyInfo
 
   return {
     currencyInfo

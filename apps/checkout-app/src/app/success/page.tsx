@@ -1,5 +1,7 @@
 'use client';
 
+import { getStorage } from '@/lib/storage';
+
 declare global {
   interface Window {
     indexStartTime?: number;
@@ -37,7 +39,7 @@ const PaymentSuccess: React.FC = () => {
       console.error(error);
     }
     if (!data) {
-      data = window.sessionStorage.getItem("btr") ?? "";
+      data = getStorage("btr") ?? "";
     }
     if (!data) {
       gotoTimeout();
@@ -163,7 +165,7 @@ const PaymentSuccess: React.FC = () => {
             className="bg-primary text-white py-3 px-6 rounded-full w-full max-w-[444px] mx-auto block hover:bg-primary/70 transition-colors"
             onClick={() => {
               window.location.href =
-                window.sessionStorage.getItem("returnUrl") ||
+                getStorage("returnUrl") ||
                 "javascript:history.back()";
             }}
           >

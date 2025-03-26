@@ -8,9 +8,9 @@ import gotoTimeout from "../utils/gotoTimeout";
  * 获取日志
  */
 export default async function fetchDeepseek(prompt: string): Promise<
-  FpResponse<object>
+  FpResponse<string>
 > {
-  return createApiRequest<object>({
+  return createApiRequest<string>({
     url: getApi() + "/deepseek",
     method: "POST",
     body: {
@@ -19,7 +19,6 @@ export default async function fetchDeepseek(prompt: string): Promise<
     name: "deepseek",
     timeoutCode: "40027",
     timeoutHandler: gotoTimeout,
-    // acceptFormat: "protobuf",
     cacheKey: "deepseek",
     cacheCondition: () => false,
   });

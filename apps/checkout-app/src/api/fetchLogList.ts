@@ -3,6 +3,7 @@ import type { FpResponse } from "./api.type";
 import { getLogApi } from "./getApi";
 import gotoTimeout from "../utils/gotoTimeout";
 import { CheckoutLog, CheckoutLogList } from "./generated/check_log";
+import { getStorage } from '@/lib/storage';
 
 
 /**
@@ -11,7 +12,7 @@ import { CheckoutLog, CheckoutLogList } from "./generated/check_log";
 export default async function fetchLogList(): Promise<
   FpResponse<CheckoutLog[]>
 > {
-  const token = window.sessionStorage.getItem("token")!;
+  const token = getStorage("token")!;
   return createApiRequest<CheckoutLog[]>({
     url: getLogApi() + "/checkoutLog/queryByToken",
     method: "GET",

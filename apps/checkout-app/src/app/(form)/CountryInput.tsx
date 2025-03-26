@@ -41,7 +41,7 @@ const CountryInput: React.FC<Props> = ({ validateResult, formValue, setFormValue
       setCountryCode(_countryCode!)
       setFormValue({ [props.name as keyof FormValue]: _countryCode } as unknown as FormValue, props.name as keyof FormValue)
     }
-  }, [dataSource, _countryCode, setFormValue]);
+  }, [dataSource, _countryCode, setFormValue, dirty, props.name]);
   const wrapperRef = useRef<HTMLDivElement>(null); // 引用整个组件
   useClickOutside(wrapperRef, () => {
     if (open) {

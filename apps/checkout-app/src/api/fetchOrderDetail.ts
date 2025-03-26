@@ -2,6 +2,7 @@ import { createApiRequest } from "./apiClient";
 import type { FpResponse } from "./api.type";
 import getApi from "./getApi";
 import gotoTimeout from "../utils/gotoTimeout";
+import { setStorage } from '@/lib/storage';
 
 export interface OrderDetailParams {
   token: string;
@@ -70,7 +71,7 @@ export interface OrderDetailRes {
 export default async function fetchOrderDetail(
   data: OrderDetailParams
 ): Promise<FpResponse<OrderDetailRes>> {
-  window.sessionStorage.setItem("token", data.token);
+  setStorage("token", data.token);
   return createApiRequest<OrderDetailRes>({
     url: getApi() + "/checkout/orderDetails",
     method: "GET",
