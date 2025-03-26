@@ -1,0 +1,148 @@
+@keyframes slide-in-down {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes slide-in-up {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-100%);
+    }
+}
+
+.slide-in-down {
+    animation: slide-in-down 0.2s ease-in forwards;
+}
+
+.slide-out-up {
+    animation: slide-in-up 0.2s ease-out forwards;
+}
+
+@keyframes slide-arrow-left {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-arrow-right {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+}
+
+.slide-arrow-left {
+    animation: slide-arrow-left 0.2s ease-in forwards;
+}
+
+.slide-arrow-right {
+    animation: slide-arrow-right 0.2s ease-out forwards;
+}
+
+
+@keyframes slide-url-left {
+    0% {
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-url-right {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-20px);
+    }
+}
+
+.slide-url-left {
+    animation: slide-url-left 0.2s ease-in forwards;
+}
+
+.slide-url-right {
+    animation: slide-url-right 0.2s ease-out forwards;
+}
+
+
+
+@keyframes slide-arrow2-left {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-arrow2-right {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.slide-arrow2-left {
+    animation: slide-arrow2-left 0.2s ease-in forwards;
+}
+
+.slide-arrow2-right {
+    animation: slide-arrow2-right 0.2s ease-out forwards;
+}
+
+
+@keyframes slide-lang-left {
+    0% {
+        transform: translateX(20px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-lang-right {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(20px);
+        opacity: 0;
+    }
+}
+
+.slide-lang-left {
+    animation: slide-lang-left 0.2s ease-in forwards;
+}
+
+.slide-lang-right {
+    animation: slide-lang-right 0.2s ease-out forwards;
+}
+

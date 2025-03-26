@@ -1,0 +1,431 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2024-04-24 20:01+0800\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#. js-lingui-explicit-id
+#: src/components/dialog/Dialog.tsx:57
+#: src/main/otp/OtpPage.tsx:215
+msgid "dialog.otp_btn"
+msgstr "Submit"
+
+#. js-lingui-explicit-id
+#: src/components/SelectSearch.tsx:43
+msgid "form.search"
+msgstr "Search"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/Amount.tsx:24
+msgid "amount.loanDetails"
+msgstr "Loan details"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/Amount.tsx:27
+msgid "amount.selectedLoanAmount"
+msgstr "Selected loan amount"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/Amount.tsx:31
+msgid "amount.loanFee"
+msgstr "Loan fee"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/Amount.tsx:37
+msgid "amount.totalAmount"
+msgstr "Total amount"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/DropDown.tsx:14
+msgid "merchant.details"
+msgstr "Details"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/fp-checkout-type.ts:72
+msgid "transaction.type.wallet"
+msgstr "eWallet"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/fp-checkout-type.ts:73
+msgid "transaction.type.bankTransfer"
+msgstr "Bank transfer"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/fp-checkout-type.ts:74
+msgid "transaction.type.localCard"
+msgstr "Local card"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/fp-checkout-type.ts:75
+msgid "transaction.type.cash"
+msgstr "Cash"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/fp-checkout-type.ts:76
+msgid "transaction.type.instalments"
+msgstr "Instalments"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/fp-checkout-type.ts:77
+msgid "transaction.type.buyNowPayLater"
+msgstr "Buy now pay later"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/fp-checkout-type.ts:78
+msgid "transaction.type.payNow"
+msgstr "Pay now"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/fp-checkout-type.ts:79
+msgid "transaction.type.payLater"
+msgstr "Pay later"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/fp-checkout-type.ts:80
+msgid "transaction.type.payOverTime"
+msgstr "Pay overtime"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/fp-checkout-type.ts:81
+msgid "transaction.type.cryptocurrency"
+msgstr "Crypto currency"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/fp-checkout-type.ts:82
+msgid "transaction.type.prepaidCard"
+msgstr "Prepaid card"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/fp-checkout-type.ts:83
+msgid "transaction.type.directDebit"
+msgstr "Direct Debit"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/fp-checkout-type.ts:84
+#: src/main/checkout/fp-checkout-type.ts:85
+msgid "transaction.type.card"
+msgstr "Cards"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/fp-checkout-type.ts:167
+msgid "tradeStatus.Pending"
+msgstr "Your transaction is currently pending. We are waiting for confirmation from the payment processor. Please check back later."
+
+#. js-lingui-explicit-id
+#: src/main/checkout/fp-checkout-type.ts:168
+msgid "tradeStatus.Success"
+msgstr "Your transaction has been successfully completed. Your funds have been sent to the store."
+
+#. js-lingui-explicit-id
+#: src/main/checkout/fp-checkout-type.ts:169
+#: src/main/otp/OtpPage.tsx:160
+msgid "tradeStatus.Failed"
+msgstr "Your transaction has been rejected or canceled. Your funds have not been sent to the store."
+
+#. js-lingui-explicit-id
+#: src/main/checkout/fp-checkout-type.ts:170
+msgid "tradeStatus.Cancelled"
+msgstr "Your transaction has been canceled. Your funds have not been sent to the store."
+
+#. js-lingui-explicit-id
+#: src/main/checkout/fp-checkout-type.ts:171
+msgid "tradeStatus.Timeout"
+msgstr "Your transaction has timed out. Please try again or contact customer support if the problem persists."
+
+#. js-lingui-explicit-id
+#: src/main/checkout/fp-checkout-type.ts:172
+msgid "tradeStatus.Declined"
+msgstr "Your payment has been declined. Please check your payment details or use a different payment method."
+
+#. js-lingui-explicit-id
+#: src/main/checkout/fp-checkout-type.ts:173
+msgid "tradeStatus.Refunded"
+msgstr "Your refund has been processed successfully. The funds have been returned to your account."
+
+#. js-lingui-explicit-id
+#: src/main/checkout/fp-checkout-type.ts:174
+msgid "tradeStatus.RefundFailed"
+msgstr "Your refund could not be processed. Please contact customer support for assistance."
+
+#. js-lingui-explicit-id
+#: src/main/checkout/fp-checkout-type.ts:175
+msgid "tradeStatus.RefundReversed"
+msgstr "Your refund has been reversed. The funds have been returned to the store."
+
+#. js-lingui-explicit-id
+#: src/main/checkout/fp-checkout-type.ts:176
+msgid "tradeStatus.RefundDeclined"
+msgstr "Your refund request has been declined. Please contact customer support for more information."
+
+#. js-lingui-explicit-id
+#: src/main/checkout/fp-checkout-type.ts:177
+msgid "tradeStatus.Chargeback"
+msgstr "A chargeback has been filed against your transaction. The funds have been returned to the payer."
+
+#. js-lingui-explicit-id
+#: src/main/checkout/fp-checkout-type.ts:178
+msgid "tradeStatus.ChargebackReversed"
+msgstr "The chargeback on your transaction has been reversed. The funds have been returned to the store."
+
+#. js-lingui-explicit-id
+#: src/main/checkout/fp-checkout-type.ts:179
+msgid "tradeStatus.Dispute"
+msgstr "A dispute has been raised on your transaction. Please contact customer support to resolve the issue."
+
+#. js-lingui-explicit-id
+#: src/main/checkout/FpCheckout.tsx:226
+#: src/main/checkout/FpCheckout.tsx:578
+#: src/main/checkout/FpCheckout.tsx:900
+#: src/main/otp/OtpPage.tsx:165
+msgid "payment.network_error"
+msgstr "NetWork Error, please try again later"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/FpCheckout.tsx:564
+msgid "payment.failure"
+msgstr "Payment failed, please try again later"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/FpCheckout.tsx:714
+msgid "payment.method.the_method_supports"
+msgstr "Select Payment Currency"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/FpCheckout.tsx:761
+msgid "country.not_support"
+msgstr "This country or region is temporarily not supported."
+
+#. js-lingui-explicit-id
+#: src/main/checkout/FpCheckout.tsx:780
+msgid "merchant.pay_to"
+msgstr "Payment to"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/FpCheckout.tsx:822
+msgid "payment.payment.via.method"
+msgstr "Payment via {paymentMethod}"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/Terms.tsx:10
+msgid "terms.i_accept"
+msgstr "I accept"
+
+#. js-lingui-explicit-id
+#: src/main/currency/CurrencyExchangeModal.tsx:35
+msgid "fx.ecb.rate_label"
+msgstr "European Central Bank's rate:"
+
+#. js-lingui-explicit-id
+#: src/main/currency/CurrencyExchangeModal.tsx:42
+msgid "fx.futurepay.rate_label"
+msgstr "FuturePay's rate:"
+
+#. js-lingui-explicit-id
+#: src/main/currency/CurrencyExchangeModal.tsx:45
+msgid "fx.margin_label"
+msgstr "Margin"
+
+#. js-lingui-explicit-id
+#: src/main/detail/DetailMobile.tsx:40
+msgid "amount.viewDetails"
+msgstr "View Details"
+
+#. js-lingui-explicit-id
+#: src/main/error/ErrorRetry.tsx:47
+msgid "failure.request_again"
+msgstr "Please request the transaction again."
+
+#. js-lingui-explicit-id
+#: src/main/error/ErrorRetry.tsx:67
+msgid "failure.store"
+msgstr "Store"
+
+#. js-lingui-explicit-id
+#: src/main/error/ErrorRetry.tsx:74
+msgid "failure.retry"
+msgstr "Retry"
+
+#. js-lingui-explicit-id
+#: src/main/form/CardNumberInput.tsx:51
+msgid "form.bank_card_info"
+msgstr "Bank card information"
+
+#. js-lingui-explicit-id
+#: src/main/form/validateNeedField.ts:19
+msgid "form.field_required"
+msgstr "Required"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/FpCheckout.tsx:97
+#~ msgid "payment.payment_method_not_found"
+#~ msgstr "No available payment method found for this region."
+
+#. js-lingui-explicit-id
+#: src/main/otp/QrPage.tsx:76
+#~ msgid "payment.scan_qr_code"
+#~ msgstr "Scan QR code to complete payment"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/Amount.tsx:60
+#~ msgid "fx.margin_ecb"
+#~ msgstr "Margin over ECB fx rates"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/FpCheckout.tsx:339
+#: src/main/otp/OtpPage.tsx:114
+#~ msgid "payment.wait_for_response"
+#~ msgstr "Please wait for a moment"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/FpCheckout.tsx:715
+#~ msgid "payment.trade_completed"
+#~ msgstr "Trade completed"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/FpCheckout.tsx:716
+#~ msgid "payment.confirm_close_window"
+#~ msgstr "Are you sure you want to close the window?"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/FpCheckout.tsx:722
+#~ msgid "payment.confirm"
+#~ msgstr "Confirm"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/FpCheckout.tsx:351
+#~ msgid "payment.unknown_action"
+#~ msgstr "Unknown exception occurred"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/validateNeedField.ts:40
+#~ msgid "form.customer.fullName"
+#~ msgstr "Full name"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/validateNeedField.ts:41
+#~ msgid "form.customer.phone"
+#~ msgstr "Phone"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/validateNeedField.ts:42
+#~ msgid "form.customer.email"
+#~ msgstr "Email"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/validateNeedField.ts:43
+#~ msgid "form.customer.identity"
+#~ msgstr "Identity"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/BankCardForm.tsx:33
+#~ msgid "form.please_enter"
+#~ msgstr "Please enter"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/BankCardForm.tsx:36
+#~ msgid "form.account_number"
+#~ msgstr "Account number"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/FpCheckout.tsx:456
+#~ msgid "payment.wait_for_next_step"
+#~ msgstr "Please wait for a moment..."
+
+#. js-lingui-explicit-id
+#: src/main/checkout/validateNeedField.ts:23
+#~ msgid "form.field_min_length"
+#~ msgstr "At least {n} numbers"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/validateNeedField.ts:27
+#~ msgid "form.field_max_length"
+#~ msgstr "At most {n} numbers"
+
+#. js-lingui-explicit-id
+#: src/main/form/validateNeedField.ts:108
+msgid "form.field_invalid"
+msgstr "{x} is invalid"
+
+#: src/main/country/CountryLink.tsx:29
+msgid "<0>Most popular in</0><1>{0}<2/><3/></1>"
+msgstr "<0>Most popular in</0><1>{0}<2/><3/></1>"
+
+#. js-lingui-explicit-id
+#: src/main/form/validateNeedField.ts:27
+msgid "form.card_number_invalid"
+msgstr "Card number is invalid!"
+
+#. js-lingui-explicit-id
+#: src/main/App.tsx:14
+#: src/main/checkout/FpCheckout.tsx:300
+msgid "site.title"
+msgstr "Checkout"
+
+#. js-lingui-explicit-id
+#: src/main/form/validateNeedField.ts:95
+msgid "form.cvv_invalid"
+msgstr "Your bank card security code is invalid"
+
+#. js-lingui-explicit-id
+#: src/main/form/validateNeedField.ts:67
+msgid "form.email_invalid"
+msgstr "Your email is invalid"
+
+#. js-lingui-explicit-id
+#: src/main/form/validateNeedField.ts:55
+msgid "form.month_invalid"
+msgstr "Your bank card expiry date is invalid"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/PayBtn.tsx:62
+msgid "payment.pay_btn"
+msgstr "Pay {outAmount} {currency}"
+
+#. js-lingui-explicit-id
+#: src/main/error/ErrorRetry.tsx:44
+msgid "failure.title"
+msgstr "Payment Failure"
+
+#. js-lingui-explicit-id
+#: src/main/checkout/PowerBy.tsx:9
+msgid "site.powered_by"
+msgstr "Powered by <0><1>FuturePay</1></0>"
+
+#. js-lingui-explicit-id
+#: src/main/error/ErrorTimeout.tsx:9
+msgid "timeout.heading"
+msgstr "Session Expired"
+
+#. js-lingui-explicit-id
+#: src/main/success/Complete.tsx:84
+msgid "result.thanks"
+msgstr "Thanks for your payment!"
+
+#. js-lingui-explicit-id
+#: src/main/form/validateNeedField.ts:42
+msgid "form.year_invalid"
+msgstr "Your bank card expiry date is invalid"
+
+#. js-lingui-explicit-id
+#: src/main/form/validateNeedField.ts:81
+msgid "form.card_expired"
+msgstr "Your bank card has expired!"
+
+#. js-lingui-explicit-id
+#: src/main/error/ErrorTimeout.tsx:10
+msgid "timeout.message"
+msgstr "Your session has expired. Please get back to the store and retry your payment."
+
+#. js-lingui-explicit-id
+#: src/main/success/Complete.tsx:88
+msgid "result.transactionCompleted"
+msgstr "Your transaction was completed successfully."

@@ -1,0 +1,13 @@
+<svg width="33" height="22" viewBox="0 0 900 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <clipPath id="thaiBanks">
+            <rect width="900" height="600" rx="54.54" fill="white"/>
+        </clipPath>
+    </defs>
+    <g clip-path="url(#thaiBanks)">
+        <path fill="#A51931" d="M0 0h900v600H0z"/>
+        <path fill="#F4F5F8" d="M0 100h900v400H0z"/>
+        <path fill="#2D2A4A" d="M0 200h900v200H0z"/>
+    </g>
+</svg>
+

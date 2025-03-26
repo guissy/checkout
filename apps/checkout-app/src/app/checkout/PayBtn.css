@@ -1,0 +1,33 @@
+@keyframes show_currency_loading {
+    0% {
+        transform: translateX(25%);
+        width: 0;
+        height: 0;
+        margin-right: 0;
+    }
+    100% {
+        transform: translateX(0);
+        width: 18px;
+        height: 18px;
+        margin-right: 10px;
+    }
+}
+
+@keyframes hide_currency_loading {
+    0% {
+        width: 18px;
+        height: 18px;
+    }
+    100% {
+        width: 0;
+        height: 0;
+    }
+}
+
+.show_currency_loading {
+    animation: show_currency_loading 0.2s ease-in forwards;
+}
+
+.hide_currency_loading {
+    animation: hide_currency_loading 0.2s ease-out forwards;
+}

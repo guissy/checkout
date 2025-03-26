@@ -1,0 +1,146 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  // provider = "prisma-typebox-generator"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 定义订单状态枚举
+enum PaymentStatus {
+  INITIALIZED // 已初始化
+  PENDING // 等待中
+  SUCCESS // 已成功
+  FAILED // 已失败
+}
+
+model PaymentOrder {
+  id                 String              @id @default(uuid())
+  countryCode        String
+  amountCurrency     String
+  amountValue        Float
+  productId          String
+  merchantId         String
+  origin             String
+  productName        String
+  productDetail      String
+  pspReference       String?             @unique
+  reference          String              @unique
+  returnUrl          String
+  isExchange         Boolean             @default(false)
+  merchantAccount    String?
+  webhookUrl         String?
+  createdAt          DateTime            @default(now())
+  expiredAt          DateTime            @default(now())
+  status             PaymentStatus       @default(INITIALIZED) // 当前状态
+  version            Int                 @default(1) // 用于乐观锁
+  PaymentOrderEvents PaymentOrderEvent[] // 事件关系
+
+  paymentMethodId Int?
+  PaymentMethod   PaymentMethod? @relation(fields: [paymentMethodId], references: [id])
+
+  transactionIds String[]
+
+  @@index([merchantId])
+  @@index([productId])
+}
+
+model PaymentOrderEvent {
+  id             String        @id @default(uuid())
+  orderId        String
+  transactionId  String // 关联交易ID
+  previousStatus PaymentStatus // 变更前状态
+  newStatus      PaymentStatus // 变更后状态
+  metadata       Json? // 错误信息
+  changedAt      DateTime      @default(now()) // 变更时间
+  changedBy      String // 触发者
+  PaymentOrder   PaymentOrder  @relation(fields: [orderId], references: [id])
+
+  @@index([orderId])
+}
+
+model PaymentMethod {
+  id                   Int    @id @default(autoincrement())
+  productId            Int
+  platformId           Int
+  type                 String
+  transactionType      String
+  imageLink            String
+  acquiringMode        String
+  processingCurrencies String
+  productChannelId     BigInt
+  merchantId           BigInt
+  providerId           Int
+  platformName         String
+  channelId            Int
+  markup               Float
+  needField            String // JSON
+  regular              String // JSON
+  supportedConsumer    String
+
+  currencyInfo CurrencyInfo[]
+  PaymentOrder PaymentOrder[]
+}
+
+model CurrencyInfo {
+  id              Int           @id @default(autoincrement())
+  currencyNameEn  String
+  currencyName    String
+  currencyCode    String
+  paymentMethod   PaymentMethod @relation(fields: [paymentMethodId], references: [id])
+  paymentMethodId Int
+}
+
+model Country {
+  id            Int    @id @default(autoincrement())
+  countryId     String @unique @db.VarChar(3)
+  iso2Code      String @unique @db.VarChar(2)
+  countryCode   String @unique @db.VarChar(3)
+  countryNameEn String @db.VarChar(255)
+  countryNameCn String @db.VarChar(255)
+
+  @@index([iso2Code, countryCode])
+}
+
+model ExchangeTransaction {
+  id            String   @id @default(uuid())
+  token         String
+  in            String // 源币种代码，例如 "USD"
+  out           String // 目标币种代码，例如 "CNY"
+  exRate        Decimal // 当前汇率，例如 7.283803
+  futurePayRate Decimal // 预付汇率，例如 7.356641
+  createdAt     DateTime @default(now())
+}
+
+// 在您的schema.prisma文件中添加或修改CheckoutLog模型
+model CheckoutLog {
+  id                String   @id @default(uuid())
+  orderId           String   // 对应token
+  action            String   // 对应requestTag
+  status            String   // 对应responseStatus
+  details           String   @default("") // 存储完整的param JSON
+  userId            String   @default("system")
+  ipAddress         String   @default("")
+  userAgent         String   @default("")
+  createdAt         DateTime @default(now())
+  
+  // 添加新字段
+  origin            String   @default("")
+  requestMethod     String   @default("")
+  requestUrl        String   @default("")
+  requestTime       String   @default("")
+  responseTime      String   @default("")
+  responseInterval  Int      @default(0)
+  downstreamOrderNo String   @default("")
+
+  @@index([orderId])
+  @@index([createdAt])
+}

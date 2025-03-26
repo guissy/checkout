@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+@import "../../../../packages/checkout-ui/src/styles.css";
+@source "../../../../packages/checkout-ui/src";
+
+@import "../../../../node_modules/@excalidraw/excalidraw/dist/prod/index.css";
+
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button {
+  cursor: pointer;
+}
+
+@layer utilities {
+  summary.marker-none::marker,
+  summary.marker-none::-webkit-details-marker {
+      display: none;
+      font-size: 0;
+      line-height: 0;
+  }
+  summary::-webkit-details-marker {
+      display: none;
+  }
+  summary::marker {
+      display: none;
+  }
+}
+
+:root {
+  --zero: 0;
+  --fp-primary: #00112C; /* 主色 */
+  --fp-silver: #F9FAFB; /* 灰色 */
+  --txt-body: #00112C;  /* 正文 */
+  --txt-body-hsl: 216.82, 100%, 8.63%; /* #00112C; */
+
+  font-family: 'Nunito',ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;
+
+  --color-border: hsl(218, 11%, 82%);
+  --border-hsl: hsl(218, 11%, 82%);
+
+  --color-destructive: hsl(359, 100%, 65%);
+  --destructive-foreground: hsl(210 40% 98%);
+
+  --color-accent: hsl(210 40% 96.1%);
+  --accent-foreground: hsl(222.2 47.4% 11.2%);
+}
+
+html, body, #root {
+  height: 100%;
+}
+img {
+  pointer-events: none;
+}
+
+/* Excalidraw 相关样式修复 */
+.excalidraw .App {
+  height: 100%;
+}
+
+.excalidraw-wrapper {
+  height: 100%;
+  margin: 0;
+  position: relative;
+}
+
+.excalidraw .layer-ui__wrapper {
+  z-index: 10;
+}
+
+/* 防止内部滚动条与页面滚动冲突 */
+.excalidraw .App__canvas {
+  height: 100%;
+  overflow: hidden;
+}
+
+.ReactModal__Overlay {
+  z-index: 1000;
+}
+
+/* 适配深色模式 */
+.dark .excalidraw {
+  --color-primary: #4a89ff;
+  --color-primary-darker: #3d7ae5;
+  --color-primary-darkest: #2e5aa2;
+  --color-primary-light: #6c9fff; 
+}
+
+/* 优化移动端显示 */
+@media (max-width: 768px) {
+  .excalidraw .layer-ui__wrapper {
+    max-height: calc(100% - 2rem);
+  }
+}
