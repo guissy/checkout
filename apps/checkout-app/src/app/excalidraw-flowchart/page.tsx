@@ -5,7 +5,8 @@ import dynamic from "next/dynamic";
 import { checkoutFlowchart } from "@/lib/flowchartData";
 import { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types";
 import fetchLogList from "@/api/fetchLogList";
-import fetchDeepseek from "@/api/fetchDeepseek";
+// import fetchDeepseek from "@/api/fetchDeepseek";
+import fetchDeepseekStream from "@/api/fetchDeepseekStream";
 import { Arrow, SpinnerCycle } from "checkout-ui";
 import { z } from "zod";
 import { parse } from "json2csv";
@@ -73,12 +74,21 @@ export default function ExcalidrawFlowchartPage() {
             logContent;
           setLogText(prompt);
           setLoading(true);
-          fetchDeepseek(prompt).then((res) => {
-            setMermaidText(
-              (res?.data || '')
-                .replaceAll("```mermaid", "")
-                .replaceAll("```", "")
-            );
+          // 使用流式API，实时更新Mermaid文本
+          setMermaidText(""); // 清空之前的内容
+          fetchDeepseekStream(prompt, (text, done) => {
+            // 处理接收到的文本块，移除Markdown格式
+            const cleanedText = text
+              .replaceAll("```mermaid", "")
+              .replaceAll("```", "");
+            
+            // 更新状态
+            setMermaidText(cleanedText);
+            
+            // 如果流结束，更新loading状态
+            if (done) {
+              setLoading(false);
+            }
           });
         }
       } catch (e) {
@@ -106,7 +116,8 @@ export default function ExcalidrawFlowchartPage() {
 
   const { excalidrawElements } = useExcalidrawElements(
     mermaidText,
-    excalidrawAPI
+    excalidrawAPI,
+    loading
   );
 
   return (

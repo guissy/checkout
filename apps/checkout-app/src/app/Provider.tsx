@@ -1,6 +1,5 @@
 "use client";
 
-// import { Toaster } from "checkout-ui";
 import { PropsWithChildren } from "react";
 import { Toaster } from "sonner";
 import { TooltipProvider } from '@radix-ui/react-tooltip';

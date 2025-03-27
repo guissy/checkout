@@ -17,7 +17,8 @@ import { useEffect, useState } from 'react';
  */
 export const useExcalidrawElements = (
   mermaidText: string,
-  excalidrawAPI: ExcalidrawImperativeAPI | null
+  excalidrawAPI: ExcalidrawImperativeAPI | null,
+  loading: boolean
 ) => {
   const [excalidrawElements, setExcalidrawElements] = useState<ExcalidrawElement[]>([]);
   const [error, setError] = useState<Error | null>(null);
@@ -73,10 +74,10 @@ export const useExcalidrawElements = (
       }
     };
 
-    if (mermaidText) {
+    if (mermaidText && !loading) {
       convertMermaidToExcalidraw();
     }
-  }, [mermaidText, excalidrawAPI]);
+  }, [mermaidText, excalidrawAPI, loading]);
 
   return { excalidrawElements, error };
 };

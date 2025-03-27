@@ -23,6 +23,7 @@ interface RequestOptions<T, S> {
   timeoutHandler?: () => void;
   acceptFormat?: ResponseFormat;
   transformResponse?: (response: FpResponse<T>) => FpResponse<T>;
+  streamHandler?: (reader: ReadableStreamDefaultReader<Uint8Array>) => Promise<string>;
 }
 
 interface CacheOptions<T> {
@@ -133,6 +134,14 @@ export function createApiRequest<T, S = Record<string, unknown> | object>(
         return protobufDecoder(new Uint8Array(buffer)); // Type-safe with refined protobufDecoder
       } else if (contentType.includes("text/event-stream")) {
         const reader = res.body?.getReader();
+
+        // 如果提供了自定义流处理函数，则使用它
+        if (options.streamHandler && reader) {
+          const result = await options.streamHandler(reader);
+          return SuccessResponse(result as T);
+        }
+
+        // 否则使用默认的流处理逻辑
         let mergedText = "";
 
         async function readStream(): Promise<FpResponse<T>> {
