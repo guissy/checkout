@@ -1,8 +1,9 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';;
+import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
+import { getStorage } from '@/lib/storage';
 // import { getStorage, setStorage } from '@/lib/storage';
 
 // function useSessionState<T>(key: string, initialValue?: T) {
@@ -45,7 +46,7 @@ function useCookieState<T>(key: string, initialValue?: T, options?: {
   sameSite?: 'strict' | 'lax' | 'none'; // SameSite属性
 }) {
   const urlParams = useSearchParams();
-  const tokenId = urlParams.get('token')?.replace(/-/g, "");
+  const tokenId = urlParams.get('token')?.replace(/-/g, "") || getStorage('token')?.replace(/-/g, "");
 
   // 从 Cookie 中获取初始值
   const [value, setValue] = useState<T>(() => {
@@ -67,7 +68,7 @@ function useCookieState<T>(key: string, initialValue?: T, options?: {
 
   // 每次 value 改变时，更新 Cookie
   useEffect(() => {
-    if (value !== undefined && typeof window !== 'undefined') {
+    if (value !== undefined) {
       const cookieValue = tokenId + JSON.stringify(value);
       Cookies.set(key, cookieValue, {
         expires: options?.expires ?? 7, // 默认7天过期
@@ -77,16 +78,8 @@ function useCookieState<T>(key: string, initialValue?: T, options?: {
     }
   }, [key, value, tokenId, options]);
 
-  // 提供清除 Cookie 的方法
-  const removeCookie = useCallback(() => {
-    Cookies.remove(key, {
-      path: options?.path ?? '/',
-      domain: options?.domain
-    });
-    setValue(undefined as T); // 将状态重置为 undefined
-  }, [key, options?.path, options?.domain]);
 
-  return [value, setValue, removeCookie] as const;
+  return [value, setValue] as const;
 }
 
 export default useCookieState;

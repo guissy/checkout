@@ -89,11 +89,11 @@ export async function GET(request: Request) {
       downstreamOrderNoOrigin: "4FCC698A813B439993B1AEA17A5EAE06",
       downstreamRedirectUrl: `http://localhost:3000/?token=${order.id}`,
       downstreamTxRate: '{"DISCOUNT_FEE":"0"}',
-      errorMsg: "The payment in process.",
+      errorMsg: "orderStatus: The payment in process.",
       estimatedAmount: 1,
       estimatedExchangeRate:
         '{"KRWUSD":0.000685,"THBUSD":0.029219,"CADUSD":0.692152,"HKDUSD":0.128581}',
-      failReason: "The payment in process.",
+      failReason: "orderStatus: The payment in process.",
       freezeType: 0,
       holderName: "guissy guissy",
       id: 1556799,

@@ -57,6 +57,7 @@ export default function ExcalidrawFlowchartPage() {
   useEffect(() => {
     setLoading(true);
     fetchLogList().then((res) => {
+      setLoading(true);
       try {
         const logs = CheckoutLogParamSchema.safeParse(res.data);
         if (logs.error) {
@@ -71,6 +72,7 @@ export default function ExcalidrawFlowchartPage() {
             `Mermaid语法流程图示例：${checkoutFlowchart}\n\n根据以下CSV格式的API日志，请整理一个流程图，只需要流程图，不要包含任何其他解释说明！\n\n` +
             logContent;
           setLogText(prompt);
+          setLoading(true);
           fetchDeepseek(prompt).then((res) => {
             setMermaidText(
               (res?.data || '')
@@ -111,7 +113,7 @@ export default function ExcalidrawFlowchartPage() {
     <div className="container mx-auto py-8 px-4">
       <div className="flex items-center gap-2">
         <h1 className="text-3xl font-bold text-center mb-0">
-          在 DeepSeek 加持下，从API日志生成流程图
+          API日志生成流程图
         </h1>
         {loading && <SpinnerCycle className="text-3xl animate-spin" />}
       </div>
@@ -128,7 +130,7 @@ export default function ExcalidrawFlowchartPage() {
               placeholder="在这里输入接口日志内容..."
             />
             <div className="mt-2 text-sm text-gray-500">
-              共用日志：{logs.length}条
+              共用日志：{logs.length}条，问询 DeepSeek 来生成流程图
             </div>
           </div>
           <div className="w-8">
@@ -143,7 +145,7 @@ export default function ExcalidrawFlowchartPage() {
               onChange={(e) => {
                 setMermaidText(e.target.value);
               }}
-              className="w-full h-64 p-4 bg-gray-50 border border-gray-300 rounded-md font-mono text-sm"
+              className="w-full h-64 px-4 bg-gray-50 border border-gray-300 rounded-md font-mono text-sm"
               placeholder="在这里输入 Mermaid 语法的流程图代码..."
             />
             <div className="mt-2 text-sm text-gray-500">

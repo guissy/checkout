@@ -179,4 +179,13 @@ export enum TradeStatus {
 //   'TradeStatus',
 // );
 
-export type OrderPay = PaymentOrderRes & { currentPay: PayMethod }
+export type PayOrder = {
+  reference: string;
+  value: number;
+  currency: string;
+  exValue: number;
+  exCurrency: string;
+  payType: PayMethod['type'];
+  payName: PayMethod['platformName']
+  expiresAt: string;
+}

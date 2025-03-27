@@ -2,13 +2,13 @@
 
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
-import { useQRCode } from 'react-qrcode'
+import { QRCodeOptions, useQRCode } from 'react-qrcode'
 import { Money, SpinnerCycle as LoadingSpin } from 'checkout-ui';
 import isMobileScreen from '../../utils/isMobileScreen';
 import { getIcon } from '../(method)/PayIconMap';
 import { PaymentOrderRes } from '../../api/fetchPaymentOrder';
 import useSessionState from '../../utils/useSessionState';
-import { PayMethod } from '../checkout/fp-checkout-type';
+import { PayMethod, PayOrder } from '../checkout/fp-checkout-type';
 import fetchPaymentInfo, { PaymentInfo } from '../../api/fetchPaymentInfo';
 import { getReferenceValue, setReferenceValue } from '../checkout/referenceUtil';
 import checkAlipayDeeplink from '../../utils/checkAlipayDeeplink';
@@ -16,13 +16,11 @@ import isPhone from '../../utils/isPhone';
 import { useOrderStatusPolling } from '../../utils/useOrderStatusPolling';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
-import { getStorage } from '@/lib/storage';
 
-type OrderType = PaymentOrderRes & { amount: { value: number, currency: string } }
 
 const AliQrPage: React.FC = () => {
 
-  const [order, setOrder] = useState<OrderType>();
+  const [payOrder] = useSessionState<PayOrder>("btr", undefined);
   const [currentPay, setCurrentPay] = useSessionState<PayMethod>("currentPay");
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
@@ -30,13 +28,6 @@ const AliQrPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [payInfo, setPayInfo] = useState<PaymentInfo>();
   useEffect(() => {
-    const data = getStorage('btr') || '{}';
-    const decryptedData = JSON.parse(data);
-    console.log(data)
-    if (typeof decryptedData === 'object' && decryptedData !== null) {
-      setOrder(decryptedData);
-    }
-
     (async () => {
       if (reference) {
         try {
@@ -46,17 +37,13 @@ const AliQrPage: React.FC = () => {
             reference: reference!,
           });
           setPayInfo(res?.data);
-          setReferenceValue(res?.data?.merchantReference);
+          if (res?.data?.merchantReference) {
+            setReferenceValue(res?.data?.merchantReference as string);
+          }
           setCurrentPay({
             type: res?.data?.action?.paymentMethodType,
             platformName: res?.data?.action?.paymentMethodType,
           } as PayMethod);
-          setOrder({
-            amount: {
-              currency: res?.data.amount?.currency,
-              value: res?.data.amount?.value,
-            },
-          } as OrderType);
         } finally {
           setLoading(false);
         }
@@ -71,13 +58,13 @@ const AliQrPage: React.FC = () => {
     quality: 100,
     value: payInfo?.action?.qrCode ?? payInfo?.action?.schemeUrl ?? payInfo?.action?.applinkUrl ?? '',
     width: 320,
-  })
+  } as QRCodeOptions)
   const isMobile = isMobileScreen();
   const { push: navigate } = useRouter()
   useOrderStatusPolling(reference!, () => {
     navigate(`/complete?reference=` + getReferenceValue());
   }, "AlipayPlus");
-  const [svg] = getIcon(currentPay?.type, currentPay?.platformName) ?? [];
+  const [svg] = getIcon(currentPay?.type as string, currentPay?.platformName as string) ?? [];
   const link = payInfo?.action?.schemeUrl ?? payInfo?.action?.applinkUrl;
   useEffect(() => {
     if (isPhone() && link) {
@@ -119,8 +106,8 @@ const AliQrPage: React.FC = () => {
                  alt="QR Code"/>}
           <p className={"text-2xl font-bold text-[#133E67] mb-8"}>
             <Money
-              value={order?.order?.amount?.value ?? order?.amount?.value}
-              currency={order?.order?.amount?.currency ?? order?.amount?.currency}
+              value={payOrder?.exValue ?? payOrder?.value}
+              currency={payOrder?.exCurrency ?? payOrder?.exCurrency}
               valueFirst={true}
               size={'lg'}
             />

@@ -24,7 +24,6 @@ export function setStorage<T=string>(
   if (typeof window === 'undefined') return;
 
   const serializedValue = JSON.stringify(value);
-
   switch (options.type) {
     case 'local':
       window.localStorage.setItem(key, serializedValue);

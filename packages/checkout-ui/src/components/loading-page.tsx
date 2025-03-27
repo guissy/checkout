@@ -9,7 +9,7 @@ const Loading: React.FC<PropsWithChildren> = ({ children }) => {
             <SpinnerAudio />
             <h2 className="text-[22px] font-extrabold mt-12 text-primary">Processing payment...</h2>
             <p className="text-[22px] font-semibold text-[#737C8B] mt-8">Waiting for the operator's response</p>
-            <a href="javascript:history.back()" className="px-6 py-4 mt-14 text-lg font-semibold text-white bg-primary rounded-full text-center w-full md:min-w-[444px]">Back To Store</a>
+            <a href="javascript:history.back()" className="px-6 py-4 mt-14 text-lg font-semibold text-white bg-primary rounded-full text-center w-full md:min-w-[444px] max-w-3xl">Back To Store</a>
           </div>
         </section>
         {children}

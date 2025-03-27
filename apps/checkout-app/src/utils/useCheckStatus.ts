@@ -61,15 +61,3 @@ export const useCheckStatus = (token: string, needReload: boolean, cleanLoading:
   }, [token, needReload, cleanLoading]);
 }
 
-export const useCheckStatusLoop = (token: string, canLoop: boolean) => {
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      if (canLoop && token) {
-        debouncedFetchThenReload(token, 'Loop')
-      }
-    }, 5000);
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [token, canLoop]);
-}

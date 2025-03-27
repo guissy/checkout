@@ -1,6 +1,18 @@
 'use client';
 
 import { getStorage } from '@/lib/storage';
+import React from "react";
+import formatToUTC from "../../utils/formatToUTC";
+import { CopyButton as SpinCopy, Money } from "checkout-ui";
+import Label from "./Label";
+import DescItem from "./DescItem";
+import BgSvg from "./BgSvg";
+import { cn as clsx } from "../../lib/utils";
+import gotoTimeout from "../../utils/gotoTimeout";
+import { reportResource } from "../../api/reportArms";
+import { type PayOrder } from "../checkout/fp-checkout-type";
+import AlipayType from "../(method)/AlipayType";
+import useSessionState from '@/utils/useSessionState';
 
 declare global {
   interface Window {
@@ -8,49 +20,17 @@ declare global {
   }
 }
 
-import React from "react";
-import formatToUTC from "../../utils/formatToUTC";
-import { isDebug } from "../../utils/isDev";
-import { CopyButton as SpinCopy, Money } from "checkout-ui";
-import Label from "./Label";
-import DescItem from "./DescItem";
-import BgSvg from "./BgSvg";
-import { cn as clsx } from "../../lib/utils";
-import gotoTimeout, { clearSessionStorage } from "../../utils/gotoTimeout";
-import { reportResource } from "../../api/reportArms";
-import { type OrderPay } from "../checkout/fp-checkout-type";
-import AlipayType, { AlipaySecret } from "../(method)/AlipayType";
-import { decrypt3DES } from "../../utils/crypto3DES";
-
-const defaultDetail = {} as OrderPay;
 
 const PaymentSuccess: React.FC = () => {
-  const [result, setResult] = React.useState<OrderPay>(defaultDetail);
+  const [payOrder] = useSessionState<PayOrder|undefined>("btr", undefined);
+  console.log(`☞☞☞ 9527 %c payOrder =`, 'color:red;font-size:16px', payOrder,  'page');
   const [loading, setLoading] = React.useState(true);
   React.useEffect(() => {
     setLoading(false);
-    let data = "";
-    try {
-      const search = window.location.search;
-      const query = new URLSearchParams(search);
-      const _data = query.get("data") ?? "";
-      data = decrypt3DES(_data, AlipaySecret);
-    } catch (error) {
-      console.error(error);
-    }
-    if (!data) {
-      data = getStorage("btr") ?? "";
-    }
-    if (!data) {
+    if (!payOrder) {
       gotoTimeout();
     }
     try {
-      const orderData = JSON.parse(data ?? "");
-      if (typeof orderData === "object" && orderData !== null) {
-        if (isDebug())  console.log("decrypted data:", orderData);
-        setResult(orderData as OrderPay);
-        clearSessionStorage();
-      }
       const name = "success";
       const duration = Date.now() - (window.indexStartTime || 0);
       reportResource(name, {
@@ -62,14 +42,14 @@ const PaymentSuccess: React.FC = () => {
         duration: 0,
         requestHeader: "",
         requestBody: JSON.stringify({ duration }),
-        responseMessage: JSON.stringify(orderData),
+        responseMessage: JSON.stringify(payOrder),
         remark: "success",
         success: 1,
       });
     } catch (error) {
       console.error(error);
     }
-  }, []);
+  }, [payOrder]);
   return (
     <div className="flex flex-col items-center min-h-screen bg-white text-white">
       <div className={"w-full bg-primary"}>
@@ -117,45 +97,45 @@ const PaymentSuccess: React.FC = () => {
             <DescItem className={"py-[34px]!"}>
               <Label>Reference:</Label>
               <SpinCopy spinning={loading}>
-                {result.pspReference ?? result.reference}
+                {payOrder?.reference}
               </SpinCopy>
             </DescItem>
             <DescItem className={"mt-8"}>
               <Label>Payment amount:</Label>
               <SpinCopy spinning={loading}>
                 <Money
-                  value={result.order?.amount?.value}
-                  currency={result.order?.amount?.currency}
+                  value={payOrder?.exValue}
+                  currency={payOrder?.exCurrency}
                   valueFirst={false}
                 />
                 <span
                   className={clsx(
                     "text-gray-500 pl-1",
-                    result.order?.amount?.currency === result.amount?.currency
+                    payOrder?.exCurrency === payOrder?.currency
                       ? "hidden"
                       : ""
                   )}
                 >
                   <span>(</span>
                   <Money
-                    value={result?.amount?.value}
-                    currency={result?.amount?.currency}
+                    value={payOrder?.value}
+                    currency={payOrder?.currency}
                     valueFirst={false}
                   />
                   <span>)</span>
                 </span>
               </SpinCopy>
             </DescItem>
-            {AlipayType.includes(result?.currentPay?.type) && (
+            {payOrder?.payType && AlipayType.includes(payOrder?.payType as string) && (
               <DescItem>
                 <Label>Payment method:</Label>
-                <span>{result?.currentPay?.platformName} (Alipay+)</span>
+                <span>{payOrder?.payName} (Alipay+)</span>
               </DescItem>
             )}
             <DescItem>
               <Label>Payment completion:</Label>
               <SpinCopy spinning={loading}>
-                {formatToUTC(result.order?.expiresAt ?? Date.now())}
+                {formatToUTC(payOrder?.expiresAt ?? Date.now())}
               </SpinCopy>
             </DescItem>
           </div>

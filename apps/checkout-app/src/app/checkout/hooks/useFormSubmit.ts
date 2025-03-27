@@ -1,5 +1,5 @@
 import { useCallback, useState, useRef } from 'react';
-import type { FormValue, PaymentOrderInfo, PayMethod } from '../fp-checkout-type';
+import type { FormValue, PaymentOrderInfo, PayMethod, PayOrder } from '../fp-checkout-type';
 import { EasyLink, NMI } from '../fp-checkout-type';
 import type { PaymentOrderRes } from '../../../api/fetchPaymentOrder';
 import fetchPaymentOrder from '../../../api/fetchPaymentOrder';
@@ -16,6 +16,7 @@ import merge from 'lodash/merge';
 import set from 'lodash/set';
 import { setFormElementsDisabled } from '../../../utils/formMouse';
 import { getStorage, removeStorage, setStorage } from '@/lib/storage';
+import useSessionState from '@/utils/useSessionState';
 
 interface UseFormSubmitProps {
   token: string;
@@ -52,6 +53,7 @@ export const useFormSubmit = ({
                                 setNetError,
                                 goToSuccess
                               }: UseFormSubmitProps): UseFormSubmitReturn => {
+  const [, setPayOrder] = useSessionState<PayOrder>("btr", {} as PayOrder);
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [redirecting, setRedirecting] = useState<boolean>(false);
   const isSubmittingRef = useRef(false); // 使用 ref 来跟踪提交状态
@@ -201,10 +203,16 @@ export const useFormSubmit = ({
         if (res.data?.action?.type === 'redirect') {
           setRedirecting(true);
 
-          if (AlipayType.includes(currentPay?.type as string) && currentPay) {
-            const resPay = { ...res.data, currentPay };
-            saveSession(paymentOrderInfo, outAmount, currency, resPay);
-          }
+          setPayOrder({
+            reference: paymentOrderInfo.reference,
+            value: paymentOrderInfo.amount.value as number,
+            currency: paymentOrderInfo.amount.currency,
+            exValue: outAmount as number,
+            exCurrency: currency as string,
+            payType: currentPay?.type as string,
+            payName: currentPay?.platformName as string,
+            expiresAt: new Date().toUTCString(),
+          })
 
           if (res.data?.action?.url || res.data?.action?.schemeUrl || res.data?.action?.applinkUrl) {
             removeStorage("o_d_o");
