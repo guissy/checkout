@@ -206,7 +206,7 @@ export const useFormSubmit = ({
             reference: paymentOrderInfo.reference,
             value: paymentOrderInfo.amount.value as number,
             currency: paymentOrderInfo.amount.currency,
-            exValue: outAmount as number,
+            exValue: outAmount as unknown as number,
             exCurrency: currency as string,
             payType: currentPay?.type as string,
             payName: currentPay?.platformName as string,
