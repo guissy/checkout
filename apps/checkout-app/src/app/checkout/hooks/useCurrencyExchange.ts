@@ -36,11 +36,13 @@ export const useCurrencyExchange = ({
   // 重新加载汇率信息
   const reloadExchange = useCallback(async () => {
     if (!currentPay?.type || !paymentOrderInfo?.amount?.currency || !currency) {
+      setCurrencyLoading(false);
       return;
     }
 
     // 如果货币没有变化且已经有汇率数据，则不需要重新加载
     if (currency === prevCurrencyRef.current && currencyExchangeMap.has(currency)) {
+      setCurrencyLoading(false);
       return;
     }
 

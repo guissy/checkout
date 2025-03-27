@@ -18,7 +18,7 @@ const Complete: React.FC = () => {
   }, "Completed");
 
   return loading ? <Loading/> : (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center h-screen w-full bg-gray-100">
       <div className='grid place-items-center mx-10 max-w-2xl'>
         <SpinnerCycle />
       </div>

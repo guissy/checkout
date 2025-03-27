@@ -40,7 +40,9 @@ export const useCheckoutInit = ({
   const router = useRouter();
   const isInitialized = useRef(false); // 添加初始化标志位
 
-  console.log('routerInitTime:', routerInitTime, indexEndTime);
+  if (isDebug() && routerInitTime === 0) {
+    console.log('routerInitTime:', routerInitTime, indexEndTime);
+  }
 
   const setNetError = useCallback((msg: string) => {
     if (msg) console.trace("Sth Error:", msg);

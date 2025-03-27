@@ -27,6 +27,7 @@ const PayBtn: React.FC<PropsWithChildren<PayBtnProps>> = ({
   const viewCurrency = useLoadingValue(currency, currencyLoading);
   const viewAmount = useLoadingValue(outAmount, currencyLoading);
   const submitRedirect = submitting || redirecting;
+  console.log(currency, currencyLoading)
   return (
     <div className="mt-0 sm:mt-2 relative">
       <div className={googlePay ? "hidden" : "flex justify-center"}>
@@ -41,12 +42,12 @@ const PayBtn: React.FC<PropsWithChildren<PayBtnProps>> = ({
                   "transition-colors duration-200 ease-in-out relative"
                 )}>
           <div className={clsx(currencyLoading || !outAmount ? '' : 'hidden')}>
-            <LoadingSpin className={"size-[20px]"}/>
+            <LoadingSpin className={"size-[20px] animate-spin"}/>
           </div>
           {/*{!currencyLoading && !submitRedirect &&*/}
           {/*  <div className={"*:w-[20px]"} dangerouslySetInnerHTML={{ __html: PayConfirmIcon }}/>}*/}
           {submitRedirect || !outAmount
-            ? <LoadingSpin className={"size-[20px]"}/>
+            ? <LoadingSpin className={"size-[20px] animate-spin"}/>
             : <span key={viewCurrency} className={currencyLoading ? 'hidden' : ''}>
                 <Trans
                   id="payment.pay_btn"
