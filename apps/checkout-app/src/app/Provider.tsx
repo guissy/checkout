@@ -13,7 +13,7 @@ const PATHS_WITHOUT_NAV = ["/404"]; //['/success', '/complete', '/error'];
 
 // Provider
 const Provider: React.FC<PropsWithChildren> = ({ children }) => {
-  i18n.activate("zh")
+  i18n.activate("zh");
   const pathname = usePathname();
   const shouldShowNav = !PATHS_WITHOUT_NAV.some(path => pathname?.startsWith(path));
   console.log(pathname, "Provider: 🐭🐭🐭");

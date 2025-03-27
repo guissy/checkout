@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Input, InputError } from 'checkout-ui';
 import clsx from 'clsx';
 import { getAllFields, type ValidateResult } from './validateNeedField';
@@ -143,7 +143,7 @@ const CustomerForm: React.FC<CustomFormerProps> = ({ countries, className, formV
                           setFormValue={setFormValue}
                           validateResult={validateResult}
                           classNameWrap={clsx((focus === key) && "z-30", items.length > 1 && '-ml-px')}
-                        /> : <></>
+                        /> : <Fragment key={key}></Fragment>
                     );
                   if (key.includes('expiryMonth') || key.includes('expiryYear'))
                     return (
@@ -164,7 +164,7 @@ const CustomerForm: React.FC<CustomFormerProps> = ({ countries, className, formV
                           onFocus={() => setFocus(key)}
                           classNameWrap={clsx((focus === key) && "z-30", items.length > 1 && '-ml-px')}
                           cardFields={{} as ExpiryDateInputProps['cardFields']}
-                        /> : <></>
+                        /> : <Fragment key={key}></Fragment>
                     );
                   return (
                     <div

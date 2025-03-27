@@ -111,7 +111,7 @@ function App() {
             <SelectSearchComponent
               keyword=""
               onKeywordChange={(value: string) => console.log("搜索:", value)}
-              placeholder="请输入搜索内容"
+              // placeholder="请输入搜索内容"
             >
               <SelectItemComponent value="item1" selected={true}>
                 选项 1
@@ -266,7 +266,7 @@ function getComponentPropsDescription(componentName: string) {
         onKeywordChange: "关键词变化的回调函数",
         className: "自定义类名",
         listClassName: "列表容器自定义类名",
-        placeholder: "搜索框占位文本",
+        // placeholder: "搜索框占位文本",
         children: "选项内容，通常是SelectItem组件",
       };
     case "SelectItem":

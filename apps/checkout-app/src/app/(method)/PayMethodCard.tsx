@@ -252,4 +252,4 @@ const PayMethodCard: React.FC<PropsWithChildren<Props>> = ({
   </span>);
 };
 
-export default PayMethodCard;
+export default React.memo(PayMethodCard);
