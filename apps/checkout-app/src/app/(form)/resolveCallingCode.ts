@@ -19,11 +19,11 @@ const resolveCallingCode = (countries: CountryInfo[]) => {
       name: countryName.get(iso2Code)!,
       iso2Code,
       callingCode,
-    }))
+    } as CountryCallingCode))
     .filter(it => !!it.name);
   if (countries?.length > 1) {
     cache = callingCodes;
   }
-  return callingCodes;
+  return callingCodes as CountryCallingCode[];
 }
 export default resolveCallingCode;

@@ -31,13 +31,23 @@ const CallingCode: React.FC<Props> = ({ countryCode, validateResult, formValue, 
     if (open) lastPosRef.current?.parentElement?.scrollIntoView({ behavior: 'smooth' });
   }, [open]);
   React.useEffect(() => {
-    const callingCode = countryCallingCodes.find(it => it.iso2Code.toLowerCase() === countryCode?.toLowerCase())?.callingCode || '';
-    if (countryCode && callingCode) {
-      setFormValue({ callingCode: '+' + callingCode } as unknown as FormValue, 'callingCode');
-      setCallingCode(callingCode);
-      setIsoCode(countryCode);
+    const callingCodeObj = countryCallingCodes.find(
+      it => it.iso2Code.toLowerCase() === countryCode?.toLowerCase()
+    );
+    const newCallingCode = callingCodeObj?.callingCode || '';
+
+    // 检查是否需要更新
+    if (countryCode &&
+      newCallingCode &&
+      (newCallingCode !== callingCode || countryCode !== iso2Code)
+    ) {
+      setFormValue({ callingCode: '+' + newCallingCode } as unknown as FormValue, 'callingCode');
+      setCallingCode(newCallingCode);
+      if (countryCode !== iso2Code) {
+        setIsoCode(countryCode);
+      }
     }
-  }, [countryCode, countryCallingCodes, setFormValue]);
+  }, [countryCode, countryCallingCodes, callingCode, iso2Code, setFormValue]);
   const countryList = useMemo(() => {
     if (!Array.isArray(countryCallingCodes)) return [];
 

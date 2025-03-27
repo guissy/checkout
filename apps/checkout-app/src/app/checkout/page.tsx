@@ -44,6 +44,7 @@ import { getReferenceValue } from './referenceUtil';
 import { useRouter } from 'next/navigation';
 import ErrorBoundary from '@/app/checkout/ErrorBoundary';
 import { removeStorage } from '@/lib/storage';
+import { pick } from 'lodash';
 
 const indexEndTime = Date.now();
 const routerInitTime = Date.now();
@@ -151,7 +152,13 @@ const FpCheckout: React.FC = () => {
   const updateFormValue = React.useCallback(
     (newValue: FormValue, key: keyof FormValue) => {
       // 初始化时，并发渲染易丢失 callingCode
-      setFormValue(prev => ({ ...prev, ...newValue }));
+      setFormValue(prev => {
+        const shouldUpdate = JSON.stringify(pick(prev, ...Object.keys(newValue))) !== JSON.stringify(newValue);
+        if (shouldUpdate) {
+          return { ...prev, ...newValue };
+        }
+        return prev;
+      });
       const keys = (key as string).split(",")
       validateFieldList(keys, newValue);
     },
