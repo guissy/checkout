@@ -1,5 +1,7 @@
 import { redirect } from "next/navigation";
 
-export default function Home() {
-  redirect("/alipayPlus");
+type SearchParams = Promise<{ reference: string }>;
+export default async function Home(props: { searchParams: SearchParams }) {
+  const searchParams = await props.searchParams
+  redirect(`/alipayPlus/${searchParams.reference}`);
 }
