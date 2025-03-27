@@ -1,7 +1,6 @@
 // import enumI18n from '../../utils/enumI18n';
 import { i18n } from '@lingui/core';
 import type { CurrencyInfo } from '../(currency)/CurrencyInfo';
-import type { PaymentOrderRes } from '../../api/fetchPaymentOrder';
 
 export type SupportedBankInfo = { name: string, description: string, bankCode: string }
 export const NMI = 158;

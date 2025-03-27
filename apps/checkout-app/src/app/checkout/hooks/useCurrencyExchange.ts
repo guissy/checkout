@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { PaymentOrderInfo, PayMethod } from '../fp-checkout-type';
 import fetchCurrencyExchange, { type CurrencyExchangeInfo } from '../../../api/fetchCurrencyExchange';
 import { truncateCurrency } from 'checkout-ui';

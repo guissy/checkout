@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { PaymentOrderInfo } from '../fp-checkout-type';
 import fetchOrderDetail from '../../../api/fetchOrderDetail';
 import { decryptAES } from '../../../utils/cryptoAES';

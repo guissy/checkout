@@ -6,7 +6,6 @@ import { QRCodeOptions, useQRCode } from 'react-qrcode'
 import { Money, SpinnerCycle as LoadingSpin } from 'checkout-ui';
 import isMobileScreen from '../../utils/isMobileScreen';
 import { getIcon } from '../(method)/PayIconMap';
-import { PaymentOrderRes } from '../../api/fetchPaymentOrder';
 import useSessionState from '../../utils/useSessionState';
 import { PayMethod, PayOrder } from '../checkout/fp-checkout-type';
 import fetchPaymentInfo, { PaymentInfo } from '../../api/fetchPaymentInfo';

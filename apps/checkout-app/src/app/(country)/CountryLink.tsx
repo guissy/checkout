@@ -4,7 +4,7 @@ import { Arrow } from 'checkout-ui';
 import type { CountryInfo } from '../../api/fetchCountryInfoList.ts';
 import clsx from 'clsx';
 import type { FC } from 'react';
-import { useCallback, useState, useRef, useEffect } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Trans } from "@lingui/react/macro";
 import { i18n } from '@lingui/core';
 

@@ -1,7 +1,5 @@
 import { Suspense } from "react";
 import ErrorRetry from "./ErrorRetry";
-import useSessionState from '@/utils/useSessionState';
-import { PayOrder } from '@/app/checkout/fp-checkout-type';
 
 export default async function ErrorPage(props: {
   searchParams: Promise<{ token: string; reference: string; detail: string }>;

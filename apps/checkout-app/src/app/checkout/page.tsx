@@ -1,14 +1,6 @@
 'use client';
 
-import React, {
-  StrictMode,
-  Suspense,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState
-} from 'react';
+import React, { StrictMode, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { FormValue, PayMethod } from './fp-checkout-type';
 import { NMI } from './fp-checkout-type';
 import { CountryLink } from '../(country)/CountryLink';

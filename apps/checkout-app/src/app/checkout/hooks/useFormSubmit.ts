@@ -1,4 +1,4 @@
-import { useCallback, useState, useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import type { FormValue, PaymentOrderInfo, PayMethod, PayOrder } from '../fp-checkout-type';
 import { EasyLink, NMI } from '../fp-checkout-type';
 import type { PaymentOrderRes } from '../../../api/fetchPaymentOrder';
@@ -9,7 +9,6 @@ import { isDebug } from '../../../utils/isDev';
 import { i18n } from '@lingui/core';
 import { reportError, reportEvent } from '../../../api/reportArms';
 import { getReferenceValue } from '../referenceUtil';
-import { saveSession } from '../../../utils/saveSession';
 import AlipayType from '../../(method)/AlipayType';
 import removeUndefinedProperties from '../../../utils/removeUndefinedProperties';
 import merge from 'lodash/merge';
