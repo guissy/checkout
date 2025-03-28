@@ -1,14 +1,14 @@
 import { redirect } from "next/navigation";
 import fetchLocalSession from "../../api/fetchLocalSession";
 import { PaymentOrderDebug } from "../../api/generated/payment_order";
-import { use, Suspense } from "react";
+import { Suspense } from "react";
 
 // 创建一个新组件处理异步逻辑
-function PaymentContent(props: {
+async function PaymentContent(props: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const params = new URLSearchParams();
-  const searchParams = use(props.searchParams);
+  const searchParams = await props.searchParams;
   const amount =
     typeof searchParams.amount === "string" ? searchParams.amount : "100";
   const currency =
@@ -19,7 +19,7 @@ function PaymentContent(props: {
   let redirectionUrl: string | undefined;
 
   try {
-    const res = use(fetchLocalSession(params as unknown as PaymentOrderDebug));
+    const res = await fetchLocalSession(params as unknown as PaymentOrderDebug);
     redirectionUrl = res.data?.checkOutUrl?.replace(/^https?:\/\/[^\/]+/, "");
     console.log(
       `Payment URL: ${redirectionUrl ? "✅" : "❌"} ${redirectionUrl}`,

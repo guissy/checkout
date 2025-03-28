@@ -1,11 +1,11 @@
-import React, { Suspense, use } from "react";
+import React, { Suspense } from "react";
 import ErrorRetry from "./ErrorRetry";
 
 // 创建内容组件来处理异步逻辑
-function ErrorContent(props: {
+async function ErrorContent(props: {
   searchParams: Promise<{ token: string; reference: string; detail: string }>;
 }) {
-  const searchParams = use(props.searchParams);
+  const searchParams = await props.searchParams;
   const detail = searchParams.detail
     ? Array.isArray(searchParams.detail)
       ? searchParams.detail[0]

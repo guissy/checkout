@@ -1,11 +1,11 @@
 import { redirect } from "next/navigation";
-import { use, Suspense } from "react";
+import React, { Suspense } from "react";
 
 type SearchParams = Promise<{ reference: string }>;
 
 // 创建内容组件来处理异步逻辑
-function HomeContent(props: { searchParams: SearchParams }) {
-  const searchParams = use(props.searchParams);
+async function HomeContent(props: { searchParams: SearchParams }) {
+  const searchParams = await props.searchParams;
   redirect(`/alipayPlus/?reference=${searchParams.reference}`);
   return null; // 这行代码不会执行，因为 redirect 会阻止渲染
 }
