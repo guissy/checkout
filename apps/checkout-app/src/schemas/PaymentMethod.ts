@@ -3,13 +3,13 @@ import PaymentMethodValueArr from "./PaymentMethodValueArr";
 
 export const PaymentMethodValue = z.enum(PaymentMethodValueArr);
 
-export const PaymentMethodFormSchema = z.object({
-  type: PaymentMethodValue,
-  holderName: z.string().optional(),
-  firstName: z.string().optional(),
-  lastName: z.string().optional(),
-  shopperEmail: z.string().email().optional(),
-});
+// export const PaymentMethodFormSchema = z.object({
+//   type: PaymentMethodValue,
+//   holderName: z.string(),
+//   firstName: z.string().optional(),
+//   lastName: z.string().optional(),
+//   shopperEmail: z.string().email(),
+// });
 
 export const CurrencyInfoSchema = z.object({
   id: z.number().default(0).describe("自动增长的主键"),

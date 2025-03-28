@@ -62,6 +62,7 @@ export const usePaymentMethod = (): UsePaymentMethodReturn => {
         } else {
           setHasPaymentMethod(true);
         }
+        console.log("methodsOk", Object.fromEntries(methodsRaw.map(it => [it.type, Object.keys(it.regular).map(it => it.split('.').pop())])))
 
         setCurrentPay((payMethodPrev) => {
           const exists = methodsOk?.some((method) =>
@@ -73,7 +74,6 @@ export const usePaymentMethod = (): UsePaymentMethodReturn => {
             .find(item => item.supportedConsumer?.split(',').includes(countryCode as string)) ?? methodsOk?.[0];
           return exists ? payMethodPrev : (_default || _first);
         });
-
         setPaymentMethods(methodsOk!);
         setPaymentMethodsRaw(prev => prev?.length > methodsRaw?.length ? prev : methodsRaw);
       }

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { PaymentMethodFormSchema } from "./PaymentMethod";
+import { PaymentMethodFormSchema } from "./AllInOneForm";
 
 export const PaymentOrderSchema = z
   .object({

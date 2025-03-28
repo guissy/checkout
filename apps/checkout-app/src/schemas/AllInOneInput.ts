@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { PaymentMethodFormSchema } from "./PaymentMethod";
+import { PaymentMethodFormSchema } from "./AllInOneForm";
 
 // 定义 Amount 的 Schema
 export const AmountSchema = z
