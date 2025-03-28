@@ -1,6 +1,21 @@
 import type { NextConfig } from "next";
+import { execSync } from "child_process";
+import { writeFileSync } from "node:fs";
+
+const getGitCommitHash = () => {
+  try {
+    const version =  execSync('git rev-parse HEAD').toString().trim();
+    writeFileSync('public/git-commit-hash.txt', version);
+    return version;
+  } catch (e) {
+    return 'development';
+  }
+};
 
 const nextConfig: NextConfig = {
+  env: {
+    NEXT_PUBLIC_GIT_COMMIT_HASH: getGitCommitHash(),
+  },
   /* config options here */
   experimental: {
     swcPlugins: [

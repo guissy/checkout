@@ -1,6 +1,7 @@
 import isDev from "../utils/isDev";
 import fetchLog from "./fetchLog";
 import formatDate from "../utils/formatDate";
+import getGitCommitHash from "../utils/getGitCommitHash";
 
 let hasInit = false;
 let token: string | undefined;
@@ -140,7 +141,7 @@ export const reportUser = async (name: string, params: {
 
     ArmsRum.setConfig({
       ...config,
-      version: "v1.0.0",
+      version: getGitCommitHash(),
       user: {
         ...config.user,
         name: name,
