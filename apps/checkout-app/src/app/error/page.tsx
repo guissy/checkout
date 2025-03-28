@@ -1,10 +1,10 @@
-import { Suspense } from "react";
+import React, { Suspense, use } from "react";
 import ErrorRetry from "./ErrorRetry";
 
-export default async function ErrorPage(props: {
+export default function ErrorPage(props: {
   searchParams: Promise<{ token: string; reference: string; detail: string }>;
 }) {
-  const searchParams = await props.searchParams;
+  const searchParams = use(props.searchParams);
   const detail = searchParams.detail
     ? Array.isArray(searchParams.detail)
       ? searchParams.detail[0]

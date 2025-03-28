@@ -65,11 +65,10 @@ export const useValidateResult = (
   const validateField = useCallback(
     (key: string, formValue: FormValue) => {
       setValidateResult((prevState) => {
-        const currValidResult = validateNeedField(
-          [key],
-          { formValue, regular },
-          currentPay,
-        );
+        const currValidResult = validateNeedField([key], {
+          formValue,
+          regular,
+        });
         const updatedState = { ...prevState };
 
         if (currValidResult[key as keyof FormValue]) {
@@ -90,11 +89,7 @@ export const useValidateResult = (
    */
   const validateFieldList = useCallback(
     (needFieldList: string[], formValue: FormValue) => {
-      const result = validateNeedField(
-        needFieldList,
-        { formValue, regular },
-        currentPay,
-      );
+      const result = validateNeedField(needFieldList, { formValue, regular });
 
       // 银行卡号远程验证
       const bankKey = needFieldList.find((key) =>
@@ -115,7 +110,12 @@ export const useValidateResult = (
             bankAccountSchema.safeParse(bankAccountNumber);
 
           // 验证通过，进行远程验证
-          if (token && headers && isBankAccountNumberValid.success) {
+          if (
+            token &&
+            headers &&
+            bankAccountNumber &&
+            isBankAccountNumberValid.success
+          ) {
             throttledValidateCard(token, bankAccountNumber, headers).then(
               (res) => {
                 if (!res.success && res.msg && res.code !== "10000") {

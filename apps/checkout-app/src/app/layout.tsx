@@ -40,7 +40,7 @@ export default function RootLayout({
           initialMessages={i18n.messages}
         >
           <Provider>
-            <Suspense fallback={null}>{children}</Suspense>
+            <Suspense>{children}</Suspense>
           </Provider>
         </LinguiClientProvider>
       </body>

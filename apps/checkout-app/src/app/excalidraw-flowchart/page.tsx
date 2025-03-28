@@ -5,7 +5,6 @@ import dynamic from "next/dynamic";
 import { checkoutFlowchart } from "@/lib/flowchartData";
 import { ExcalidrawImperativeAPI } from "@excalidraw/excalidraw/types";
 import fetchLogList from "@/api/fetchLogList";
-// import fetchDeepseek from "@/api/fetchDeepseek";
 import fetchDeepseekStream from "@/api/fetchDeepseekStream";
 import { Arrow, SpinnerCycle } from "checkout-ui";
 import { z } from "zod";
@@ -20,7 +19,7 @@ const Excalidraw = dynamic(
     loading: () => (
       <div className="animate-pulse bg-gray-100 h-96 rounded-lg"></div>
     ),
-  }
+  },
 );
 
 const MainMenu = dynamic(
@@ -30,7 +29,7 @@ const MainMenu = dynamic(
     loading: () => (
       <div className="animate-pulse bg-gray-100 h-96 rounded-lg"></div>
     ),
-  }
+  },
 );
 
 const CheckoutLogParamSchema = z.array(
@@ -42,7 +41,7 @@ const CheckoutLogParamSchema = z.array(
     responseTime: z.string(),
     responseStatus: z.string(),
     responseInterval: z.number(),
-  })
+  }),
 ); // 确保只允许定义的字段
 
 export default function ExcalidrawFlowchartPage() {
@@ -81,10 +80,10 @@ export default function ExcalidrawFlowchartPage() {
             const cleanedText = text
               .replaceAll("```mermaid", "")
               .replaceAll("```", "");
-            
+
             // 更新状态
             setMermaidText(cleanedText);
-            
+
             // 如果流结束，更新loading状态
             if (done) {
               setLoading(false);
@@ -117,7 +116,7 @@ export default function ExcalidrawFlowchartPage() {
   const { excalidrawElements } = useExcalidrawElements(
     mermaidText,
     excalidrawAPI,
-    loading
+    loading,
   );
 
   return (

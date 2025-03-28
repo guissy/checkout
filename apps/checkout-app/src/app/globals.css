@@ -3,7 +3,7 @@
 @import "../../../../packages/checkout-ui/src/styles.css";
 @source "../../../../packages/checkout-ui/src";
 
-@import "../../../../node_modules/@excalidraw/excalidraw/dist/prod/index.css";
+@import "../../node_modules/@excalidraw/excalidraw/dist/prod/index.css";
 
 
 :root {
@@ -106,7 +106,7 @@ img {
   --color-primary: #4a89ff;
   --color-primary-darker: #3d7ae5;
   --color-primary-darkest: #2e5aa2;
-  --color-primary-light: #6c9fff; 
+  --color-primary-light: #6c9fff;
 }
 
 /* 优化移动端显示 */
