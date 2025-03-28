@@ -2,6 +2,7 @@
 
 import React, {
   createContext,
+  Suspense,
   useContext,
   useEffect,
   useMemo,
@@ -29,7 +30,7 @@ const StoreContext = createContext<StoreContextProps>({
 
 export const useStore = () => useContext(StoreContext);
 
-export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({
+export const StoreProviderInner: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const searchParams = useSearchParams();
@@ -134,3 +135,11 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({
     </StoreContext.Provider>
   );
 };
+
+export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => (
+  <Suspense>
+    <StoreProviderInner>{children}</StoreProviderInner>
+  </Suspense>
+);

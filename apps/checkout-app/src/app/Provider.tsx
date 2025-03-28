@@ -7,7 +7,6 @@ import { usePathname } from "next/navigation";
 import Navigation from "@/components/Navigation";
 import { i18n } from "@lingui/core";
 import { StoreProvider } from "@/store/StoreProvider";
-import { Suspense } from "react";
 
 // 不需要在某些特定页面显示导航的路径
 const PATHS_WITHOUT_NAV = ["/404"]; //['/success', '/complete', '/error'];
@@ -24,7 +23,7 @@ const Provider: React.FC<PropsWithChildren> = ({ children }) => {
     <TooltipProvider>
       <StoreProvider>
         {shouldShowNav && <Navigation />}
-        <Suspense>{children as React.ReactElement}</Suspense>
+        {children as React.ReactElement}
         <Toaster position="top-right" />
       </StoreProvider>
     </TooltipProvider>

@@ -1,6 +1,6 @@
 // 'use client';
 
-import React, { use } from "react";
+import React, { use, Suspense } from "react";
 import { PayToIcon } from "checkout-ui";
 import { camelCase, capitalize } from "lodash";
 import { useLingui } from "@lingui/react";
@@ -8,12 +8,10 @@ import { TradeStatusCN } from "@/enums/TradeStatus";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
-const Status: React.FC<{
+// 创建内容组件来处理异步逻辑
+const StatusContent: React.FC<{
   searchParams: SearchParams;
 }> = (props) => {
-  // 'use client';
-  // import { useSearchParams } from 'next/navigation';
-  // const searchParams = useSearchParams()
   const searchParams = new Map(Object.entries(use(props.searchParams)));
   const reference = searchParams.get("pspReference");
   const merchantId = searchParams.get("merchantId");
@@ -66,6 +64,16 @@ const Status: React.FC<{
         </div>
       </div>
     </main>
+  );
+};
+
+const Status: React.FC<{
+  searchParams: SearchParams;
+}> = (props) => {
+  return (
+    <Suspense fallback={<div>加载中...</div>}>
+      <StatusContent searchParams={props.searchParams} />
+    </Suspense>
   );
 };
 

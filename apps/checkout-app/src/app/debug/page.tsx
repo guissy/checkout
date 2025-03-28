@@ -1,9 +1,10 @@
 import { redirect } from "next/navigation";
 import fetchLocalSession from "../../api/fetchLocalSession";
 import { PaymentOrderDebug } from "../../api/generated/payment_order";
-import { use } from "react";
+import { use, Suspense } from "react";
 
-export default function PaymentPage(props: {
+// 创建一个新组件处理异步逻辑
+function PaymentContent(props: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const params = new URLSearchParams();
@@ -42,4 +43,14 @@ export default function PaymentPage(props: {
 
   // 在 try/catch 外部进行重定向，避免错误被捕获
   redirect("/checkout" + redirectionUrl);
+}
+
+export default function PaymentPage(props: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  return (
+    <Suspense fallback={<div>加载中...</div>}>
+      <PaymentContent searchParams={props.searchParams} />
+    </Suspense>
+  );
 }

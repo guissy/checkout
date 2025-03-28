@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import clsx from "clsx";
 import { QRCodeOptions, useQRCode } from "react-qrcode";
 import { Money, SpinnerCycle as LoadingSpin } from "checkout-ui";
@@ -170,4 +170,10 @@ const AliQrPage: React.FC = () => {
   );
 };
 
-export default AliQrPage;
+export default function AlipayPlusPage() {
+  return (
+    <Suspense>
+      <AliQrPage />
+    </Suspense>
+  );
+}
