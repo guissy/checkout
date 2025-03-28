@@ -4,14 +4,27 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "guissy <guissy@qq.com>",
   "license": "ISC",
   "packageManager": "pnpm@10.6.5",
-  "dependencies": {
-    "@excalidraw/excalidraw": "^0.18.0",
-    "@radix-ui/react-tooltip": "^1.1.8"
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
+    "@commitlint/types": "^19.8.0",
+    "eslint": "^9.23.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.0",
+    "prettier": "^3.5.3"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "eslint -c apps/checkout-app/eslint.config.mjs --cache --fix",
+      "git add"
+    ]
   }
 }

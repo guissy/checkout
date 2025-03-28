@@ -37,7 +37,7 @@ export async function POST(request: Request) {
       action: {
         type: "redirect",
         url: "https://open-sea-global.alipayplus.com/api/open/v1/ac/cashier/self/codevalue/checkout.htm?codeValue=281666040098Z1WJ1kpBg7QoFo2tln22r7Zr&loadMode=2",
-        payUrl: `https://checkout.futurepay-develop.com/alipayPlus?reference=${reference}`,
+        payUrl: `https://localhost:3000/alipayPlus?reference=${reference}`,
         paymentMethodType: "alipaycn",
         method: "GET",
         qrCode: "281666040098Z1WJ1kpBg7QoFo2tln22r7Zr",
@@ -57,7 +57,7 @@ export async function POST(request: Request) {
     console.error(error);
     return errorResponse(
       (error as Error)?.message || "查询支付信息时发生错误",
-      500
+      500,
     );
   }
 }

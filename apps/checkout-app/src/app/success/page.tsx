@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { getStorage } from '@/lib/storage';
+import { getStorage } from "@/lib/storage";
 import React from "react";
 import formatToUTC from "../../utils/formatToUTC";
 import { CopyButton as SpinCopy, Money } from "checkout-ui";
@@ -10,9 +10,8 @@ import BgSvg from "./BgSvg";
 import { cn as clsx } from "../../lib/utils";
 import gotoTimeout from "../../utils/gotoTimeout";
 import { reportResource } from "../../api/reportArms";
-import { type PayOrder } from "../checkout/fp-checkout-type";
 import AlipayType from "../(method)/AlipayType";
-import useSessionState from '@/utils/useSessionState';
+import { useFormStore } from "../../store/useFormStore";
 
 declare global {
   interface Window {
@@ -20,10 +19,14 @@ declare global {
   }
 }
 
-
 const PaymentSuccess: React.FC = () => {
-  const [payOrder] = useSessionState<PayOrder|undefined>("btr", undefined);
-  console.log(`☞☞☞ 9527 %c payOrder =`, 'color:red;font-size:16px', payOrder,  'page');
+  const { payOrder } = useFormStore();
+  console.log(
+    `☞☞☞ 9527 %c payOrder =`,
+    "color:red;font-size:16px",
+    payOrder,
+    "page",
+  );
   const [loading, setLoading] = React.useState(true);
   React.useEffect(() => {
     setLoading(false);
@@ -96,9 +99,7 @@ const PaymentSuccess: React.FC = () => {
           <div className="z-10 px-6 sm:px-8 w-full text-sm flex flex-col min-h-[320px]">
             <DescItem className={"py-[34px]!"}>
               <Label>Reference:</Label>
-              <SpinCopy spinning={loading}>
-                {payOrder?.reference}
-              </SpinCopy>
+              <SpinCopy spinning={loading}>{payOrder?.reference}</SpinCopy>
             </DescItem>
             <DescItem className={"mt-8"}>
               <Label>Payment amount:</Label>
@@ -111,9 +112,7 @@ const PaymentSuccess: React.FC = () => {
                 <span
                   className={clsx(
                     "text-gray-500 pl-1",
-                    payOrder?.exCurrency === payOrder?.currency
-                      ? "hidden"
-                      : ""
+                    payOrder?.exCurrency === payOrder?.currency ? "hidden" : "",
                   )}
                 >
                   <span>(</span>
@@ -126,12 +125,13 @@ const PaymentSuccess: React.FC = () => {
                 </span>
               </SpinCopy>
             </DescItem>
-            {payOrder?.payType && AlipayType.includes(payOrder?.payType as string) && (
-              <DescItem>
-                <Label>Payment method:</Label>
-                <span>{payOrder?.payName} (Alipay+)</span>
-              </DescItem>
-            )}
+            {payOrder?.payType &&
+              AlipayType.includes(payOrder?.payType as string) && (
+                <DescItem>
+                  <Label>Payment method:</Label>
+                  <span>{payOrder?.payName} (Alipay+)</span>
+                </DescItem>
+              )}
             <DescItem>
               <Label>Payment completion:</Label>
               <SpinCopy spinning={loading}>
@@ -145,8 +145,7 @@ const PaymentSuccess: React.FC = () => {
             className="bg-primary text-white py-3 px-6 rounded-full w-full max-w-[444px] mx-auto block hover:bg-primary/70 transition-colors"
             onClick={() => {
               window.location.href =
-                getStorage("returnUrl") ||
-                "javascript:history.back()";
+                getStorage("returnUrl") || "javascript:history.back()";
             }}
           >
             Back to store

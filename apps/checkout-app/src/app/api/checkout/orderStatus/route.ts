@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { errorResponse, successResponse } from "@/lib/api/response";
 import { ReferenceInputSchema } from "@/schemas";
 import { PaymentStatus } from "@prisma/client";
-import paymentServiceManager from "@/machines/payService";
+import { getPaymentServiceManager } from "@/machines/payService";
 import { encryptAES } from "@/utils/cryptoAES";
 
 // 用于模拟成功支付的集合
@@ -13,7 +13,7 @@ export async function GET(request: Request) {
     // 解析请求 URL 中的查询参数
     const url = new URL(request.url);
     const referenceInput = ReferenceInputSchema.safeParse({
-      reference: url.searchParams.get("reference")
+      reference: url.searchParams.get("reference"),
     });
 
     if (!referenceInput.success) {
@@ -44,28 +44,40 @@ export async function GET(request: Request) {
 
     let res: { status: PaymentStatus };
     if (isSuccess) {
-      [res] = await paymentServiceManager.sendEvent(order.id, {
-        type: "PAYMENT_SUCCESS",
-        orderId: order.id,
-        transactionId: "1",
-        amount: order.amountValue,
-        previousStatus: order.status,
-      });
+      [res] = await getPaymentServiceManager().sendEvent(
+        order.id,
+        {
+          type: "PAYMENT_SUCCESS",
+          orderId: order.id,
+          transactionId: "1",
+          amount: order.amountValue,
+          previousStatus: order.status,
+        },
+        "orderStatus",
+      );
     } else if (isPending) {
-      [res] = await paymentServiceManager.sendEvent(order.id, {
-        type: "RETRY",
-        orderId: order.id,
-        amount: order.amountValue,
-        previousStatus: order.status,
-      });
+      [res] = await getPaymentServiceManager().sendEvent(
+        order.id,
+        {
+          type: "RETRY",
+          orderId: order.id,
+          amount: order.amountValue,
+          previousStatus: order.status,
+        },
+        "orderStatus",
+      );
     } else {
-      [res] = await paymentServiceManager.sendEvent(order.id, {
-        type: "PAYMENT_FAILED",
-        orderId: order.id,
-        errorMessage: "Error message!!!",
-        amount: order.amountValue,
-        previousStatus: order.status,
-      });
+      [res] = await getPaymentServiceManager().sendEvent(
+        order.id,
+        {
+          type: "PAYMENT_FAILED",
+          orderId: order.id,
+          errorMessage: "Error message!!!",
+          amount: order.amountValue,
+          previousStatus: order.status,
+        },
+        "orderStatus",
+      );
     }
     console.log("🐌🐌🐌", isSuccess, isPending, res, order.id);
     // 构建支付数据
@@ -143,7 +155,7 @@ export async function GET(request: Request) {
     console.error(error);
     return errorResponse(
       (error as Error)?.message || "查询订单结果状态时发生错误",
-      500
+      500,
     );
   }
 }

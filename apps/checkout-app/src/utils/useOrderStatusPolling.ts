@@ -1,23 +1,27 @@
-import { useEffect, useRef, useState } from 'react';
-import { i18n } from '@lingui/core';
-import fetchOrderStatus, { OrderStatus } from '../api/fetchOrderStatus';
-import { decryptAES } from './cryptoAES';
-import { isDebug } from './isDev';
-import gotoTimeout from './gotoTimeout';
-import { useRouter } from 'next/navigation';
-import { useOrderStatusStream } from '@/api/fetchOrderStatusStream';
-import { setStorage } from '@/lib/storage';
+import { useEffect, useRef, useState } from "react";
+import { i18n } from "@lingui/core";
+import fetchOrderStatus, { OrderStatus } from "../api/fetchOrderStatus";
+import { decryptAES } from "./cryptoAES";
+import { isDebug } from "./isDev";
+import gotoTimeout from "./gotoTimeout";
+import { useRouter } from "next/navigation";
+import { useOrderStatusStream } from "@/api/fetchOrderStatusStream";
+import { setStorage } from "@/lib/storage";
 
 // 支付状态轮询 Hook
-export const useOrderStatusPolling = (reference: string | null, handleSuccess: (data: OrderStatus, reference: string) => void, ctx: string) => {
+export const useOrderStatusPolling = (
+  reference: string | null,
+  handleSuccess: (data: OrderStatus, reference: string) => void,
+  ctx: string,
+) => {
   const [reloadKey, setReloadKey] = useState(0);
   const [startTime] = useState(Date.now());
   const loadingRef = useRef(false);
   const router = useRouter();
   const handleError = (msg: string, reference: string | null) => {
-    console.error(ctx + ":::" + msg);
+    console.warn(ctx + ":::" + msg);
     router.push(`/error?msg=${msg}&reference=${reference}`);
-  }
+  };
 
   const processOrderStatus = async () => {
     if (!reference || loadingRef.current) return;
@@ -26,13 +30,13 @@ export const useOrderStatusPolling = (reference: string | null, handleSuccess: (
     try {
       const res = await fetchOrderStatus(
         { reference },
-        reloadKey === 0 ? 'Complete' : 'Loop'
+        reloadKey === 0 ? "Complete" : "Loop",
       );
 
-      if (typeof res.data === 'string') {
+      if (typeof res.data === "string") {
         const dataStr = await decryptAES(res.data);
         const data: OrderStatus = JSON.parse(dataStr);
-        if (isDebug()) console.log('Parsed order status:', data);
+        if (isDebug()) console.log("Parsed order status:", data);
 
         const status = data?.orderStatus;
         const origin = data?.origin?.startsWith("http")
@@ -40,17 +44,17 @@ export const useOrderStatusPolling = (reference: string | null, handleSuccess: (
           : `https://${data.origin}`;
 
         if (data?.downstreamRedirectUrl) {
-          setStorage('returnUrl', data?.downstreamRedirectUrl);
+          setStorage("returnUrl", data?.downstreamRedirectUrl);
         } else if (data?.origin) {
-          setStorage('returnUrl', origin);
+          setStorage("returnUrl", origin);
         }
 
         switch (status) {
-          case 'SUCCEED':
-          case 'SUCCESS':
+          case "SUCCEED":
+          case "SUCCESS":
             handleSuccess(data, reference);
             break;
-          case 'PENDING':
+          case "PENDING":
             if (Date.now() - startTime < 10 * 60 * 1000) {
               setTimeout(() => setReloadKey(Date.now()), 5000);
             } else {
@@ -64,8 +68,8 @@ export const useOrderStatusPolling = (reference: string | null, handleSuccess: (
         handleError(res.msg, reference);
       }
     } catch (error) {
-      console.error('Order status processing error:', error);
-      handleError(i18n.t('error.unknown'), reference);
+      console.error("Order status processing error:", error);
+      handleError(i18n.t("error.unknown"), reference);
     } finally {
       loadingRef.current = false;
     }
@@ -79,7 +83,6 @@ export const useOrderStatusPolling = (reference: string | null, handleSuccess: (
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reference, reloadKey]);
 
-
   const status = useOrderStatusStream(reference!);
-  console.info(`sse: ${status}`)
+  console.info(`sse: ${status}`);
 };

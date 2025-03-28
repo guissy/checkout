@@ -3,11 +3,22 @@ import { PaymentStatus } from "@prisma/client";
 
 // 定义状态机上下文类型
 export interface PaymentContext {
+  // 支付订单基础信息
   orderId: string;
   amount: number;
+
+  // 支付处理信息
   errorMessage?: string;
   transactionId?: string;
+
+  // 状态追踪
   previousStatus: PaymentStatus;
+  currentState: PaymentStatus;
+  stateEnteredAt: Date;
+
+  // 元数据
+  apiPath: string; // API路径信息
+  reason: string; // 状态变更原因
 }
 
 // 定义状态机事件类型
@@ -55,6 +66,10 @@ export const paymentMachine = createMachine({
     errorMessage: input?.errorMessage,
     transactionId: input?.transactionId,
     previousStatus: input?.previousStatus || PaymentStatus.INITIALIZED,
+    apiPath: input?.apiPath || "__input__",
+    reason: input?.reason || "__input__",
+    currentState: input?.currentState || PaymentStatus.INITIALIZED,
+    stateEnteredAt: input?.stateEnteredAt || new Date(),
   }),
   states: {
     // 初始化状态
@@ -66,6 +81,8 @@ export const paymentMachine = createMachine({
             orderId: ({ event }) => event.orderId,
             amount: ({ event }) => event.amount,
             previousStatus: () => PaymentStatus.INITIALIZED,
+            currentState: () => PaymentStatus.PENDING,
+            stateEnteredAt: () => new Date(),
           }),
         },
       },
@@ -84,6 +101,8 @@ export const paymentMachine = createMachine({
           actions: assign({
             transactionId: ({ event }) => event.transactionId,
             previousStatus: () => PaymentStatus.PENDING,
+            currentState: () => PaymentStatus.SUCCESS,
+            stateEnteredAt: () => new Date(),
           }),
         },
         PAYMENT_FAILED: {
@@ -91,6 +110,8 @@ export const paymentMachine = createMachine({
           actions: assign({
             errorMessage: ({ event }) => event.errorMessage,
             previousStatus: () => PaymentStatus.PENDING,
+            currentState: () => PaymentStatus.FAILED,
+            stateEnteredAt: () => new Date(),
           }),
         },
       },

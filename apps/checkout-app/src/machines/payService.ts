@@ -1,18 +1,19 @@
-import { createActor, SnapshotFrom } from "xstate";
+import { createActor } from "xstate";
 import { prisma } from "@/lib/prisma";
 import { EventEmitter } from "events";
 import { PaymentEvent, paymentMachine } from "./paymentMachine";
-import { updatePaymentStatusInDatabase } from "./payDb";
+import {
+  getPaymentStatusInDatabase,
+  updatePaymentStatusInDatabase,
+} from "./payDb";
 import { JsonObject } from "@prisma/client/runtime/library";
 import { PaymentOrder, PaymentStatus } from "@prisma/client";
-
+import { randomUUID } from "crypto";
 
 const CLEANUP_INTERVAL_MS = 30 * 60 * 1000; // 30 minutes
 const MAX_INACTIVE_TIME = 24 * 60 * 60 * 1000; // 24 hours
 const PENDING_TIMEOUT = 60 * 60 * 1000; // 1 hour
-const FINAL_STATE_CLEANUP_DELAY = 500; // 500ms
 
-// State transition map for restoring states
 const STATE_TRANSITION_MAP: Record<PaymentStatus, string[]> = {
   [PaymentStatus.INITIALIZED]: [],
   [PaymentStatus.PENDING]: ["SUBMIT"],
@@ -20,7 +21,6 @@ const STATE_TRANSITION_MAP: Record<PaymentStatus, string[]> = {
   [PaymentStatus.FAILED]: ["SUBMIT", "PAYMENT_FAILED"],
 };
 
-// Final payment states
 const FINAL_STATES = [
   PaymentStatus.SUCCESS,
   PaymentStatus.FAILED,
@@ -28,14 +28,7 @@ const FINAL_STATES = [
 
 interface PaymentServiceInstance {
   actor: ReturnType<typeof createActor<typeof paymentMachine>>;
-  metadata: {
-    orderId: string;
-    userId?: string;
-    currentState: PaymentStatus;
-    stateEnteredAt: Date;
-    createdAt: Date;
-    amount: number;
-  };
+  stateEnteredAt: Date;
 }
 
 export type PaymentEventData = {
@@ -48,6 +41,7 @@ export type PaymentEventData = {
 export class PaymentServiceManager extends EventEmitter {
   private instances = new Map<string, PaymentServiceInstance>();
   private cleanupInterval: NodeJS.Timeout;
+  public static __id__ = randomUUID();
 
   constructor(cleanupIntervalMs = CLEANUP_INTERVAL_MS) {
     super();
@@ -58,17 +52,12 @@ export class PaymentServiceManager extends EventEmitter {
     );
   }
 
-  /**
-   * Create or retrieve a payment service instance
-   */
-  async createInstance(orderId: string, userId?: string) {
-    // Return existing instance if available
+  async createInstance(orderId: string, apiPath?: string) {
     if (this.instances.has(orderId)) {
       return this.getInstance(orderId);
     }
 
     try {
-      // Load order and latest event in parallel
       const [paymentOrder, paymentOrderEvent] = await Promise.all([
         prisma.paymentOrder.findUnique({ where: { id: orderId } }),
         prisma.paymentOrderEvent.findFirst({
@@ -81,7 +70,6 @@ export class PaymentServiceManager extends EventEmitter {
       const errorMessage = (paymentOrderEvent?.metadata as JsonObject)
         ?.errorMessage as string | undefined;
 
-      // Create actor with input data
       const actor = createActor(paymentMachine, {
         id: `payment-${orderId}`,
         input: {
@@ -89,32 +77,21 @@ export class PaymentServiceManager extends EventEmitter {
           amount,
           errorMessage,
           transactionId: paymentOrderEvent?.transactionId,
-          // previousStatus: previousState
+          apiPath: apiPath || "__create__",
+          reason: "create",
+          currentState: PaymentStatus.INITIALIZED,
+          stateEnteredAt: new Date(),
         },
       });
 
-      // Initialize instance
       const instance: PaymentServiceInstance = {
         actor,
-        metadata: {
-          orderId,
-          userId,
-          currentState: PaymentStatus.INITIALIZED,
-          stateEnteredAt: new Date(),
-          createdAt: new Date(),
-          amount,
-        },
+        stateEnteredAt: new Date(),
       };
 
-      // Set up instance and start
       this.instances.set(orderId, instance);
       this.setupInstanceListeners(instance);
       actor.start();
-
-      // Restore state if needed
-      if (paymentOrder?.status) {
-        this.restoreState(actor, paymentOrder.status as PaymentStatus);
-      }
 
       return actor;
     } catch (error) {
@@ -123,143 +100,83 @@ export class PaymentServiceManager extends EventEmitter {
     }
   }
 
-  /**
-   * Set up listeners for state changes
-   */
   private setupInstanceListeners(instance: PaymentServiceInstance) {
-    const orderId = instance.metadata.orderId;
-    let previousState: PaymentStatus = instance.metadata.currentState;
+    const actor = instance.actor;
+    const snapshot = actor.getSnapshot();
+    const orderId = snapshot.context.orderId;
+    let previousState = String(snapshot.value) as PaymentStatus;
 
     instance.actor.subscribe(async (snapshot) => {
       const currentState = String(snapshot.value) as PaymentStatus;
+      instance.stateEnteredAt = new Date();
 
-      // Update metadata
-      instance.metadata.currentState = currentState;
-      instance.metadata.stateEnteredAt = new Date();
-
-      // Handle state change if needed
       if (previousState !== currentState) {
-        await this.handleStateChange(
+        this.emit("stateChange", {
           orderId,
           previousState,
           currentState,
-          snapshot,
-        );
+          context: snapshot.context,
+        });
         previousState = currentState;
       }
-
-      // Clean up instance if in final state
-      if (FINAL_STATES.includes(currentState)) {
-        setTimeout(
-          () => this.removeInstance(orderId),
-          FINAL_STATE_CLEANUP_DELAY,
-        );
-      }
     });
   }
 
-  /**
-   * Handle state transitions
-   */
-  private async handleStateChange(
-    orderId: string,
-    previousState: PaymentStatus,
-    currentState: PaymentStatus,
-    snapshot: SnapshotFrom<typeof paymentMachine>,
-  ) {
-    // fastifyIns.log.info(
-    //   `Payment status change [${orderId}]: ${previousState} -> ${currentState}`,
-    // );
-
-    // Emit state change event
-    this.emit("stateChange", {
-      orderId,
-      previousState,
-      currentState,
-      context: snapshot.context,
-    });
-
-    try {
-      // Update database
-      await updatePaymentStatusInDatabase(currentState, {
-        orderId,
-        transactionId: snapshot.context.transactionId,
-        errorMessage: snapshot.context.errorMessage,
-        previousStatus: previousState,
-      });
-    } catch (error) {
-      console.error(`Database update failed for [${orderId}]:`, error);
-      this.emit("error", { orderId, error });
-    }
-  }
-
-  /**
-   * Get instance by orderId
-   */
   getInstance(orderId: string) {
     const instance = this.instances.get(orderId);
     if (!instance) throw new Error(`Payment instance not found: ${orderId}`);
     return instance.actor;
   }
 
-  /**
-   * Send event to payment instance
-   */
-  async sendEvent(orderId: string, event: PaymentEvent) {
+  async sendEvent(orderId: string, event: PaymentEvent, apiPath: string = "") {
     let actor = this.instances.get(orderId)?.actor;
     if (!actor) {
-      actor = await this.createInstance(orderId, "");
-      // throw new Error(`Payment instance not found: ${orderId}`)
+      actor = await this.createInstance(orderId, apiPath);
     }
 
-    // Capture state before event
     const beforeSnapshot = actor.getSnapshot();
     const beforeState = String(beforeSnapshot.value) as PaymentStatus;
+    const context = beforeSnapshot.context;
 
-    // Send event
-    // fastifyIns.log.info(`Sending event [${orderId}]: ${event.type}`);
     actor.send(event);
 
-    // Check if state changed
     const afterSnapshot = actor.getSnapshot();
     const afterState = String(afterSnapshot.value) as PaymentStatus;
 
-    // Only update database if state changed
     if (beforeState !== afterState) {
       return updatePaymentStatusInDatabase(afterState, {
         orderId,
-        transactionId: afterSnapshot.context.transactionId,
+        apiPath: context.apiPath,
+        reason: context.reason,
         errorMessage: afterSnapshot.context.errorMessage,
         previousStatus: beforeState,
       });
     }
 
-    // Return current state if no change
+    const paymentOrder = await getPaymentStatusInDatabase(orderId);
     return [
       {
+        ...paymentOrder,
         status: afterState,
       } as PaymentOrder,
     ];
   }
 
-  /**
-   * Clean up inactive or timed out instances
-   */
   private cleanupInactiveInstances() {
     const now = Date.now();
 
     for (const [orderId, instance] of this.instances.entries()) {
       try {
-        const { currentState, stateEnteredAt, amount } = instance.metadata;
-        const stateDuration = now - stateEnteredAt.getTime();
+        const snapshot = instance.actor.getSnapshot();
+        const currentState = String(snapshot.value) as PaymentStatus;
+        const { amount } = snapshot.context;
+        const stateDuration = now - instance.stateEnteredAt.getTime();
 
-        // Clean up final states
         if (FINAL_STATES.includes(currentState)) {
           this.removeInstance(orderId);
           continue;
         }
 
-        // Handle pending timeout
         if (
           currentState === PaymentStatus.PENDING &&
           stateDuration > PENDING_TIMEOUT
@@ -274,7 +191,6 @@ export class PaymentServiceManager extends EventEmitter {
           continue;
         }
 
-        // General inactive cleanup
         if (stateDuration > MAX_INACTIVE_TIME) {
           this.removeInstance(orderId);
         }
@@ -284,9 +200,6 @@ export class PaymentServiceManager extends EventEmitter {
     }
   }
 
-  /**
-   * Clean up a failed instance
-   */
   private cleanupFailedInstance(orderId: string) {
     if (this.instances.has(orderId)) {
       const instance = this.instances.get(orderId)!;
@@ -295,9 +208,6 @@ export class PaymentServiceManager extends EventEmitter {
     }
   }
 
-  /**
-   * Restore instance to target state
-   */
   private restoreState(
     actor: ReturnType<typeof createActor<typeof paymentMachine>>,
     targetState: PaymentStatus,
@@ -308,9 +218,6 @@ export class PaymentServiceManager extends EventEmitter {
     }
   }
 
-  /**
-   * Remove an instance
-   */
   removeInstance(orderId: string) {
     const instance = this.instances.get(orderId);
     if (instance) {
@@ -321,9 +228,6 @@ export class PaymentServiceManager extends EventEmitter {
     return false;
   }
 
-  /**
-   * Shutdown the service manager
-   */
   shutdown() {
     clearInterval(this.cleanupInterval);
     for (const [, instance] of this.instances) {
@@ -334,6 +238,11 @@ export class PaymentServiceManager extends EventEmitter {
   }
 }
 
-// Singleton instance
-const paymentServiceManager = new PaymentServiceManager();
-export default paymentServiceManager;
+let paymentServiceManagerInstance: PaymentServiceManager | null = null;
+
+export function getPaymentServiceManager(): PaymentServiceManager {
+  if (!paymentServiceManagerInstance) {
+    paymentServiceManagerInstance = new PaymentServiceManager();
+  }
+  return paymentServiceManagerInstance;
+}

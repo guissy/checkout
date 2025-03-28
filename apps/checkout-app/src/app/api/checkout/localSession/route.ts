@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { errorResponse, successResponse } from "@/lib/api/response";
-import paymentServiceManager from '@/machines/payService';
+import { getPaymentServiceManager } from "@/machines/payService";
 
 export async function GET(request: NextRequest) {
   try {
@@ -44,9 +44,11 @@ export async function GET(request: NextRequest) {
         merchantId: "1",
         origin: "xyz.com",
         productName: "IPhone 12 Pro Max",
-        productDetail: "A brand new iPhone 12 Pro Max with 128GB storage and 5G support.",
+        productDetail:
+          "A brand new iPhone 12 Pro Max with 128GB storage and 5G support.",
         pspReference: Date.now().toString(),
-        reference: Date.now().toString() + Math.random().toString().replace(".", ""),
+        reference:
+          Date.now().toString() + Math.random().toString().replace(".", ""),
         returnUrl: `${host}/debug`,
         isExchange: true,
         merchantAccount: "9.99",
@@ -57,7 +59,7 @@ export async function GET(request: NextRequest) {
     });
 
     // 创建支付服务实例
-    await paymentServiceManager.createInstance(created.id, "user123");
+    await getPaymentServiceManager().createInstance(created.id, "user123");
 
     // 构建返回URL
     const output = {
