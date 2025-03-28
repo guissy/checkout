@@ -17,14 +17,6 @@
     "lint": {
       "outputs": []
     },
-    "dd": {
-      "cache": false,
-      "persistent": true,
-      "dependsOn": [
-        "checkout-ui#dev",
-        "checkout-ui#build"
-      ]
-    },
     "dev": {
       "cache": false,
       "persistent": true

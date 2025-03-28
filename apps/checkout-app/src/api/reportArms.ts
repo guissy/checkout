@@ -128,7 +128,7 @@ export const reportResource = async (name: string, params: FetchLogParams) => {
   }
 };
 
-export const reportUser = async (name: string, params: { 
+export const reportUser = async (name: string, params: {
   token?: string, origin?: string, amount: number, currency: string, merchantId: string, productId: string }) => {
   if (typeof window === 'undefined') return; // 服务器端直接跳过
   try {
@@ -140,7 +140,6 @@ export const reportUser = async (name: string, params: {
 
     ArmsRum.setConfig({
       ...config,
-      // TODO: 这里的版本号需要和后端保持一致
       version: "v1.0.0",
       user: {
         ...config.user,

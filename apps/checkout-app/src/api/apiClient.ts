@@ -192,7 +192,6 @@ export function createApiRequest<T, S = Record<string, unknown> | object>(
       return transformedRes;
     })
     .catch((e) => errorHandler(e))
-    // TODO: 暂时屏蔽上报
     .finally(() => {
       // 性能标记结束
       performance.mark(`${name}End`);
