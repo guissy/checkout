@@ -15,6 +15,7 @@ const StatusContent: React.FC<{
   const searchParams = new Map(Object.entries(use(props.searchParams)));
   const reference = searchParams.get("pspReference");
   const merchantId = searchParams.get("merchantId");
+  const domain = searchParams.get("domain");
   const orderStatus = searchParams.get("orderStatus") as string;
   const origin = searchParams.get("origin");
   const str =
@@ -32,7 +33,7 @@ const StatusContent: React.FC<{
               <PayToIcon className="bg-white rounded-full text-6xl" />
             </div>
             <p className="text-lg font-medium text-zinc-600">Payment for</p>
-            <a href="https://fffmall.com" className="font-bold">
+            <a href={(domain as string) || ""} className="font-bold">
               {origin}
             </a>
           </div>

@@ -30,14 +30,17 @@ export async function GET(request: NextRequest) {
     if (new Date(order.expiredAt) < new Date()) {
       return errorResponse("支付订单已过期", 408, { code: 40027 });
     }
-
+    const host = (`${process.env.NEXT_PUBLIC_API_BASE_URL}` || "").replace(
+      "/api",
+      "",
+    );
     // 构建输出数据
     const output1 = {
       ...order,
       processingCurrency: order.amountCurrency,
       pspReference: "",
       isexchange: true,
-      returnUrl: `/?token=${order.id}`,
+      returnUrl: `${host}/checkout/?token=${order.id}`,
       amount: {
         currency: order.amountCurrency,
         value: order.amountValue,

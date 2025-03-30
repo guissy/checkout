@@ -80,6 +80,10 @@ export async function GET(request: Request) {
       );
     }
     console.log("🐌🐌🐌", isSuccess, isPending, res, order.id);
+    const host = (`${process.env.NEXT_PUBLIC_API_BASE_URL}` || "").replace(
+      "/api",
+      "",
+    );
     // 构建支付数据
     const paymentData = {
       acquiringMode: "checkout",
@@ -95,11 +99,10 @@ export async function GET(request: Request) {
       downstreamFeeC: '{"DISCOUNT_FEE":"0USD"}',
       downstreamFixedFee: "{}",
       downstreamGatewayFee: '{"GATEWAY_FEE":"10USD"}',
-      downstreamNotifyUrl:
-        "https://wallet.futurepay-develop.com/api/PayNotify/callback/pay_environment/produce",
+      downstreamNotifyUrl: `${host}/api/PayNotify/callback/pay_environment/produce`,
       downstreamOrderNo: "4FCC698A813B439993B1AEA17A5EAE06",
       downstreamOrderNoOrigin: "4FCC698A813B439993B1AEA17A5EAE06",
-      downstreamRedirectUrl: `/?token=${order.id}`,
+      downstreamRedirectUrl: `${host}/?token=${order.id}`,
       downstreamTxRate: '{"DISCOUNT_FEE":"0"}',
       errorMsg: "orderStatus: The payment in process.",
       estimatedAmount: 1,
