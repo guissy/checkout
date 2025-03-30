@@ -37,12 +37,12 @@ export async function GET(request: NextRequest) {
       processingCurrency: order.amountCurrency,
       pspReference: "",
       isexchange: true,
-      returnUrl: `http://localhost:3000/?token=${order.id}`,
+      returnUrl: `/?token=${order.id}`,
       amount: {
         currency: order.amountCurrency,
         value: order.amountValue,
       },
-    }
+    };
     const output = output1 as Partial<typeof output1>;
 
     // 删除不需要的字段

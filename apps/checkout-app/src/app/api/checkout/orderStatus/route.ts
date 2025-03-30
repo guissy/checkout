@@ -99,7 +99,7 @@ export async function GET(request: Request) {
         "https://wallet.futurepay-develop.com/api/PayNotify/callback/pay_environment/produce",
       downstreamOrderNo: "4FCC698A813B439993B1AEA17A5EAE06",
       downstreamOrderNoOrigin: "4FCC698A813B439993B1AEA17A5EAE06",
-      downstreamRedirectUrl: `http://localhost:3000/?token=${order.id}`,
+      downstreamRedirectUrl: `/?token=${order.id}`,
       downstreamTxRate: '{"DISCOUNT_FEE":"0"}',
       errorMsg: "orderStatus: The payment in process.",
       estimatedAmount: 1,
