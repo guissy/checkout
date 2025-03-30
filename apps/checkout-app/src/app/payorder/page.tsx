@@ -1,3 +1,4 @@
+import { LoadingPage } from "checkout-ui";
 import { redirect } from "next/navigation";
 import React, { Suspense } from "react";
 
@@ -12,7 +13,7 @@ async function HomeContent(props: { searchParams: SearchParams }) {
 
 export default function Home(props: { searchParams: SearchParams }) {
   return (
-    <Suspense fallback={<div>加载中...</div>}>
+    <Suspense fallback={<LoadingPage />}>
       <HomeContent searchParams={props.searchParams} />
     </Suspense>
   );

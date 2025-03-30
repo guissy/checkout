@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import fetchLocalSession from "../../api/fetchLocalSession";
 import { PaymentOrderDebug } from "../../api/generated/payment_order";
 import { Suspense } from "react";
+import { LoadingPage } from "checkout-ui";
 
 // 创建一个新组件处理异步逻辑
 async function PaymentContent(props: {
@@ -49,7 +50,7 @@ export default function PaymentPage(props: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   return (
-    <Suspense fallback={<div>加载中...</div>}>
+    <Suspense fallback={<LoadingPage />}>
       <PaymentContent searchParams={props.searchParams} />
     </Suspense>
   );

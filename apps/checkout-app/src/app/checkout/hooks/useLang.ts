@@ -1,18 +1,18 @@
-import { useState } from 'react';
-import { i18n } from '@lingui/core';
+import { useLingui } from "@lingui/react";
+import Cookies from "js-cookie";
 
 export const useLang = () => {
-  const [lang, setLang] = useState<string>('en');
+  const { i18n } = useLingui();
 
   const onChangeLang = (newLang: string) => {
-    setLang(newLang);
     i18n.activate(newLang);
+    Cookies.set("lang", newLang);
     document.documentElement.lang = i18n.locale;
     document.title = i18n.t("site.title");
   };
 
   return {
-    lang,
-    onChangeLang
+    lang: i18n.locale,
+    onChangeLang,
   };
 };

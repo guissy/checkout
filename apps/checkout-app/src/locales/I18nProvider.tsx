@@ -3,6 +3,7 @@
 import { I18nProvider } from "@lingui/react";
 import { type Messages, setupI18n } from "@lingui/core";
 import { useState } from "react";
+import { setI18n } from "./i18nInstance";
 
 export function LinguiClientProvider({
   children,
@@ -19,6 +20,8 @@ export function LinguiClientProvider({
       messages: { [initialLocale]: initialMessages },
     });
   });
+  console.log("i18n 🐌🐌🐌", i18n);
   i18n.activate(initialLocale);
+  setI18n(i18n);
   return <I18nProvider i18n={i18n}>{children}</I18nProvider>;
 }

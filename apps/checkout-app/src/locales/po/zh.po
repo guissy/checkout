@@ -14,423 +14,225 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
-#: src/components/dialog/Dialog.tsx:57
-#: src/main/otp/OtpPage.tsx:215
-msgid "dialog.otp_btn"
-msgstr "提交"
+#: src/utils/useOrderStatusPolling.ts:72
+msgid "error.unknown"
+msgstr "未知异常，请稍候重试"
 
 #. js-lingui-explicit-id
-#: src/components/SelectSearch.tsx:43
-msgid "form.search"
-msgstr "搜索"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/Amount.tsx:24
-msgid "amount.loanDetails"
-msgstr "税额详情"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/Amount.tsx:27
-msgid "amount.selectedLoanAmount"
-msgstr "选择的税额"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/Amount.tsx:31
-msgid "amount.loanFee"
-msgstr "税额"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/Amount.tsx:37
-msgid "amount.totalAmount"
-msgstr "总计"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/DropDown.tsx:14
-msgid "merchant.details"
-msgstr "详情"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/fp-checkout-type.ts:72
-msgid "transaction.type.wallet"
-msgstr "电子钱包"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/fp-checkout-type.ts:73
-msgid "transaction.type.bankTransfer"
-msgstr "银行转账"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/fp-checkout-type.ts:74
-msgid "transaction.type.localCard"
-msgstr "本地卡"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/fp-checkout-type.ts:75
-msgid "transaction.type.cash"
-msgstr "现金"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/fp-checkout-type.ts:76
-msgid "transaction.type.instalments"
-msgstr "分期付款"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/fp-checkout-type.ts:77
-msgid "transaction.type.buyNowPayLater"
-msgstr "先买后付"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/fp-checkout-type.ts:78
-msgid "transaction.type.payNow"
-msgstr "立即付款"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/fp-checkout-type.ts:79
-msgid "transaction.type.payLater"
-msgstr "先买后付"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/fp-checkout-type.ts:80
-msgid "transaction.type.payOverTime"
-msgstr "分期付款"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/fp-checkout-type.ts:81
-msgid "transaction.type.cryptocurrency"
-msgstr "加密货币"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/fp-checkout-type.ts:82
-msgid "transaction.type.prepaidCard"
-msgstr "预付卡"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/fp-checkout-type.ts:83
-msgid "transaction.type.directDebit"
-msgstr "定期付款"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/fp-checkout-type.ts:84
-#: src/main/checkout/fp-checkout-type.ts:85
-msgid "transaction.type.card"
-msgstr "信用卡"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/fp-checkout-type.ts:167
-msgid "tradeStatus.Pending"
-msgstr "您的交易正在处理中。我们正在等待支付处理器的确认。请稍后再查看。"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/fp-checkout-type.ts:168
-msgid "tradeStatus.Success"
-msgstr "您的交易已成功完成。您的资金已发送到商店。"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/fp-checkout-type.ts:169
-#: src/main/otp/OtpPage.tsx:160
-msgid "tradeStatus.Failed"
-msgstr "您的交易已被拒绝或取消。您的资金未发送到商店。"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/fp-checkout-type.ts:170
-msgid "tradeStatus.Cancelled"
-msgstr "您的交易已被取消。您的资金未发送到商店。"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/fp-checkout-type.ts:171
-msgid "tradeStatus.Timeout"
-msgstr "您的交易已超时。请重试或联系客户支持以获取帮助。"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/fp-checkout-type.ts:172
-msgid "tradeStatus.Declined"
-msgstr "您的付款已被拒绝。请检查您的付款信息或使用其他付款方式。"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/fp-checkout-type.ts:173
-msgid "tradeStatus.Refunded"
-msgstr "您的退款已成功处理。资金已退回到您的账户。"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/fp-checkout-type.ts:174
-msgid "tradeStatus.RefundFailed"
-msgstr "您的退款无法处理。请联系客户支持获取帮助。"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/fp-checkout-type.ts:175
-msgid "tradeStatus.RefundReversed"
-msgstr "您的退款已被撤销。资金已退回到商店。"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/fp-checkout-type.ts:176
-msgid "tradeStatus.RefundDeclined"
-msgstr "您的退款请求已被拒绝。请联系客户支持以获取更多信息。"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/fp-checkout-type.ts:177
-msgid "tradeStatus.Chargeback"
-msgstr "您的交易已被拒付。资金已退回给付款人。"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/fp-checkout-type.ts:178
-msgid "tradeStatus.ChargebackReversed"
-msgstr "您的交易拒付已被撤销。资金已退回到商店。"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/fp-checkout-type.ts:179
-msgid "tradeStatus.Dispute"
-msgstr "您的交易存在争议。请联系客户支持以解决问题。"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/FpCheckout.tsx:226
-#: src/main/checkout/FpCheckout.tsx:578
-#: src/main/checkout/FpCheckout.tsx:900
-#: src/main/otp/OtpPage.tsx:165
-msgid "payment.network_error"
-msgstr "网络异常，请稍候重试"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/FpCheckout.tsx:564
+#: src/store/useFormStore.ts:391
+#: src/app/checkout/ErrorBoundary.tsx:22
 msgid "payment.failure"
 msgstr "支付失败，请稍候重试"
 
 #. js-lingui-explicit-id
-#: src/main/checkout/FpCheckout.tsx:714
-msgid "payment.method.the_method_supports"
-msgstr "请选择支付的货币"
+#: src/store/useFormStore.ts:403
+#: src/app/checkout/page.tsx:680
+msgid "payment.network_error"
+msgstr "网络异常，请稍候重试"
 
 #. js-lingui-explicit-id
-#: src/main/checkout/FpCheckout.tsx:761
-msgid "country.not_support"
-msgstr "该国家或地区暂时不支持。"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/FpCheckout.tsx:780
-msgid "merchant.pay_to"
-msgstr "支付给"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/FpCheckout.tsx:822
-msgid "payment.payment.via.method"
-msgstr "通过{paymentMethod}付款"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/Terms.tsx:10
-msgid "terms.i_accept"
-msgstr "我接受"
-
-#. js-lingui-explicit-id
-#: src/main/currency/CurrencyExchangeModal.tsx:35
-msgid "fx.ecb.rate_label"
-msgstr "欧洲央行外汇汇率："
-
-#. js-lingui-explicit-id
-#: src/main/currency/CurrencyExchangeModal.tsx:42
-msgid "fx.futurepay.rate_label"
-msgstr "FuturePay 的费率："
-
-#. js-lingui-explicit-id
-#: src/main/currency/CurrencyExchangeModal.tsx:45
-msgid "fx.margin_label"
-msgstr "差额"
-
-#. js-lingui-explicit-id
-#: src/main/detail/DetailMobile.tsx:40
-msgid "amount.viewDetails"
-msgstr "显示详情"
-
-#. js-lingui-explicit-id
-#: src/main/error/ErrorRetry.tsx:47
-msgid "failure.request_again"
-msgstr "请重新请求该交易"
-
-#. js-lingui-explicit-id
-#: src/main/error/ErrorRetry.tsx:67
-msgid "failure.store"
-msgstr "电商"
-
-#. js-lingui-explicit-id
-#: src/main/error/ErrorRetry.tsx:74
-msgid "failure.retry"
-msgstr "重试"
-
-#. js-lingui-explicit-id
-#: src/main/form/CardNumberInput.tsx:51
-msgid "form.bank_card_info"
-msgstr "银行卡信息"
-
-#. js-lingui-explicit-id
-#: src/main/form/validateNeedField.ts:19
-msgid "form.field_required"
-msgstr "必填"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/FpCheckout.tsx:97
-#~ msgid "payment.payment_method_not_found"
-#~ msgstr "未找到适合当前区域的支付方式"
-
-#. js-lingui-explicit-id
-#: src/main/otp/QrPage.tsx:76
-#~ msgid "payment.scan_qr_code"
-#~ msgstr "扫码支付"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/Amount.tsx:60
-#~ msgid "fx.margin_ecb"
-#~ msgstr "相对于欧洲央行外汇汇率的差额"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/FpCheckout.tsx:339
-#: src/main/otp/OtpPage.tsx:114
-#~ msgid "payment.wait_for_response"
-#~ msgstr "请稍等片刻..."
-
-#. js-lingui-explicit-id
-#: src/main/checkout/FpCheckout.tsx:715
-#~ msgid "payment.trade_completed"
-#~ msgstr "交易完成"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/FpCheckout.tsx:716
-#~ msgid "payment.confirm_close_window"
-#~ msgstr "确定要关闭窗口"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/FpCheckout.tsx:722
-#~ msgid "payment.confirm"
-#~ msgstr "确认"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/FpCheckout.tsx:351
-#~ msgid "payment.unknown_action"
-#~ msgstr "未知异常，请稍候重试"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/validateNeedField.ts:40
-#~ msgid "form.customer.fullName"
-#~ msgstr "姓名"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/validateNeedField.ts:41
-#~ msgid "form.customer.phone"
-#~ msgstr "手机号"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/validateNeedField.ts:42
-#~ msgid "form.customer.email"
-#~ msgstr "邮箱"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/validateNeedField.ts:43
-#~ msgid "form.customer.identity"
-#~ msgstr "ID"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/BankCardForm.tsx:33
-#~ msgid "form.please_enter"
-#~ msgstr "请输入"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/BankCardForm.tsx:36
-#~ msgid "form.account_number"
-#~ msgstr "账号"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/FpCheckout.tsx:456
-#~ msgid "payment.wait_for_next_step"
-#~ msgstr "请稍等片刻..."
-
-#. js-lingui-explicit-id
-#: src/pages/checkout/FpCheckout.tsx:218
-#~ msgid "payment.waiting_for_response"
-#~ msgstr "请稍候"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/validateNeedField.ts:23
-#~ msgid "form.field_min_length"
-#~ msgstr "至少{n}数字"
-
-#. js-lingui-explicit-id
-#: src/main/checkout/validateNeedField.ts:27
-#~ msgid "form.field_max_length"
-#~ msgstr "至多{n}数字"
-
-#. js-lingui-explicit-id
-#: src/main/form/validateNeedField.ts:108
-msgid "form.field_invalid"
-msgstr "{x}无效"
-
-#: src/main/country/CountryLink.tsx:29
-msgid "<0>Most popular in</0><1>{0}<2/><3/></1>"
-msgstr "<1>{0}</1><0>最受欢迎的</0>"
-
-#. js-lingui-explicit-id
-#: src/main/form/validateNeedField.ts:27
-msgid "form.card_number_invalid"
-msgstr "您的银行卡号无效"
-
-#. js-lingui-explicit-id
-#: src/main/App.tsx:14
-#: src/main/checkout/FpCheckout.tsx:300
+#: src/app/layout.tsx:32
+#: src/app/checkout/hooks/useLang.ts:12
 msgid "site.title"
 msgstr "收银台"
 
 #. js-lingui-explicit-id
-#: src/main/form/validateNeedField.ts:95
+#: src/app/checkout/page.tsx:555
+msgid "country.not_support"
+msgstr "该国家或地区暂时不支持。"
+
+#. js-lingui-explicit-id
+#: src/app/checkout/page.tsx:651
+msgid "payment.payment.via.method"
+msgstr "通过{paymentMethod}付款"
+
+#. js-lingui-explicit-id
+#: src/app/checkout/fp-checkout-type.ts:71
+msgid "transaction.type.wallet"
+msgstr "电子钱包"
+
+#. js-lingui-explicit-id
+#: src/app/checkout/fp-checkout-type.ts:72
+msgid "transaction.type.bankTransfer"
+msgstr "银行转账"
+
+#. js-lingui-explicit-id
+#: src/app/checkout/fp-checkout-type.ts:73
+msgid "transaction.type.localCard"
+msgstr "本地卡"
+
+#. js-lingui-explicit-id
+#: src/app/checkout/fp-checkout-type.ts:74
+msgid "transaction.type.cash"
+msgstr "现金"
+
+#. js-lingui-explicit-id
+#: src/app/checkout/fp-checkout-type.ts:75
+msgid "transaction.type.instalments"
+msgstr "分期付款"
+
+#. js-lingui-explicit-id
+#: src/app/checkout/fp-checkout-type.ts:76
+msgid "transaction.type.buyNowPayLater"
+msgstr "先买后付"
+
+#. js-lingui-explicit-id
+#: src/app/checkout/fp-checkout-type.ts:77
+msgid "transaction.type.payNow"
+msgstr "立即付款"
+
+#. js-lingui-explicit-id
+#: src/app/checkout/fp-checkout-type.ts:78
+msgid "transaction.type.payLater"
+msgstr "先买后付"
+
+#. js-lingui-explicit-id
+#: src/app/checkout/fp-checkout-type.ts:79
+msgid "transaction.type.payOverTime"
+msgstr "分期付款"
+
+#. js-lingui-explicit-id
+#: src/app/checkout/fp-checkout-type.ts:80
+msgid "transaction.type.cryptocurrency"
+msgstr "加密货币"
+
+#. js-lingui-explicit-id
+#: src/app/checkout/fp-checkout-type.ts:81
+msgid "transaction.type.prepaidCard"
+msgstr "预付卡"
+
+#. js-lingui-explicit-id
+#: src/app/checkout/fp-checkout-type.ts:82
+msgid "transaction.type.directDebit"
+msgstr "定期付款"
+
+#. js-lingui-explicit-id
+#: src/app/checkout/fp-checkout-type.ts:83
+#: src/app/checkout/fp-checkout-type.ts:84
+msgid "transaction.type.card"
+msgstr "信用卡"
+
+#. js-lingui-explicit-id
+#: src/app/(form)/validateNeedField.ts:19
+#: src/app/(form)/validateNeedField.ts:22
+#: src/app/(form)/validateNeedField.ts:25
+#: src/app/(form)/validateNeedField.ts:37
+#: src/app/(form)/validateNeedField.ts:42
+#: src/app/(form)/validateNeedField.ts:110
+msgid "form.field_required"
+msgstr "必填"
+
+#. js-lingui-explicit-id
+#: src/app/(form)/CardNumberInput.tsx:50
+msgid "form.bank_card_info"
+msgstr "银行卡信息"
+
+#: src/app/(country)/CountryLink.tsx:66
+msgid "<0>Most popular in</0><1>{countryName}<2/><3/></1>"
+msgstr "{0}最受欢迎的{1}{2}在{3}"
+
+#. js-lingui-explicit-id
+#: src/app/(form)/validateNeedField.ts:48
+#: src/app/(form)/validateNeedField.ts:57
+msgid "form.card_number_invalid"
+msgstr "您的银行卡号无效"
+
+#. js-lingui-explicit-id
+#: src/app/(form)/validateNeedField.ts:66
 msgid "form.cvv_invalid"
 msgstr "您的银行卡安全码无效"
 
 #. js-lingui-explicit-id
-#: src/main/form/validateNeedField.ts:67
+#: src/app/(form)/validateNeedField.ts:31
 msgid "form.email_invalid"
 msgstr "您的邮箱无效"
 
 #. js-lingui-explicit-id
-#: src/main/form/validateNeedField.ts:55
+#: src/app/(currency)/CurrencyExchangeModal.tsx:39
+msgid "fx.ecb.rate_label"
+msgstr "欧洲央行外汇汇率："
+
+#. js-lingui-explicit-id
+#: src/app/(currency)/CurrencyExchangeModal.tsx:46
+msgid "fx.futurepay.rate_label"
+msgstr "FuturePay 的费率："
+
+#. js-lingui-explicit-id
+#: src/app/checkout/Amount.tsx:29
+msgid "amount.loanDetails"
+msgstr "税额详情"
+
+#. js-lingui-explicit-id
+#: src/app/checkout/Amount.tsx:52
+msgid "amount.loanFee"
+msgstr "税额"
+
+#. js-lingui-explicit-id
+#: src/app/(currency)/CurrencyExchangeModal.tsx:49
+msgid "fx.margin_label"
+msgstr "差额"
+
+#. js-lingui-explicit-id
+#: src/app/(form)/validateNeedField.ts:75
 msgid "form.month_invalid"
 msgstr "您的银行卡过期时间无效"
 
 #. js-lingui-explicit-id
-#: src/main/checkout/PayBtn.tsx:62
+#: src/app/checkout/PayBtn.tsx:52
 msgid "payment.pay_btn"
 msgstr "支付 {outAmount} {currency}"
 
 #. js-lingui-explicit-id
-#: src/main/error/ErrorRetry.tsx:44
+#: src/app/error/ErrorRetry.tsx:24
 msgid "failure.title"
 msgstr "支付失败"
 
 #. js-lingui-explicit-id
-#: src/main/checkout/PowerBy.tsx:9
-msgid "site.powered_by"
-msgstr "由 <0><1>FuturePay</1></0> 提供技术支持"
+#: src/app/checkout/page.tsx:588
+msgid "merchant.pay_to"
+msgstr "支付给"
 
 #. js-lingui-explicit-id
-#: src/main/error/ErrorTimeout.tsx:9
+#: src/app/error/ErrorRetry.tsx:27
+msgid "failure.request_again"
+msgstr "请重新请求该交易"
+
+#. js-lingui-explicit-id
+#: src/app/checkout/page.tsx:484
+msgid "payment.method.the_method_supports"
+msgstr "请选择支付的货币"
+
+#. js-lingui-explicit-id
+#: src/app/checkout/Amount.tsx:33
+msgid "amount.selectedLoanAmount"
+msgstr "选择的税额"
+
+#. js-lingui-explicit-id
+#: src/app/timeout/page.tsx:14
 msgid "timeout.heading"
 msgstr "会话过期"
 
 #. js-lingui-explicit-id
-#: src/main/success/Complete.tsx:84
-msgid "result.thanks"
-msgstr "感谢您的付款！"
+#: src/app/checkout/Amount.tsx:71
+msgid "amount.totalAmount"
+msgstr "总计"
 
 #. js-lingui-explicit-id
-#: src/main/form/validateNeedField.ts:42
+#: src/app/(detail)/DetailMobile.tsx:40
+msgid "amount.viewDetails"
+msgstr "显示详情"
+
+#. js-lingui-explicit-id
+#: src/app/(form)/validateNeedField.ts:93
 msgid "form.year_invalid"
 msgstr "您的银行卡过期时间无效"
 
 #. js-lingui-explicit-id
-#: src/main/form/validateNeedField.ts:81
-msgid "form.card_expired"
-msgstr "您的银行卡已过期"
-
-#. js-lingui-explicit-id
-#: src/main/error/ErrorTimeout.tsx:10
+#: src/app/timeout/page.tsx:15
 msgid "timeout.message"
 msgstr "您的会话已过期。请返回商店并重试您的付款。"
 
 #. js-lingui-explicit-id
-#: src/main/success/Complete.tsx:88
+#: src/app/complete/page.tsx:32
 msgid "result.transactionCompleted"
 msgstr "您的交易已成功完成。"

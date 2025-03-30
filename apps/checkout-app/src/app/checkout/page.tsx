@@ -23,7 +23,6 @@ import Amount from "./Amount";
 import CustomerForm from "../(form)/CustomerForm";
 import PayBtn from "./PayBtn";
 import { useValidateResult } from "../(form)/useValidateForm";
-import { i18n } from "@lingui/core";
 import { Trans } from "@lingui/react";
 import isMobileScreen from "../../utils/isMobileScreen";
 import { isDebug } from "../../utils/isDev";
@@ -57,6 +56,7 @@ import {
 // 导入状态提供者上下文
 import { useStore } from "@/store/StoreProvider";
 import { useCurrencyInfo } from "@/app/checkout/hooks/useCurrencyInfo";
+import { useLingui } from "@lingui/react/macro";
 
 const LoadingSpinner = () => (
   <div className="loading-spinner">
@@ -65,6 +65,9 @@ const LoadingSpinner = () => (
 );
 
 const FpCheckout: React.FC = () => {
+  const { i18n } = useLingui();
+  console.log("i18n ⇨ ⇨ ⇨ ⇨ ⇨ ⇨🐶🐶🐶");
+  // i18n.activate("zh");
   // 使用状态上下文
   const {
     isInitialized,

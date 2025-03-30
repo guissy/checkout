@@ -4,48 +4,49 @@ import type {
   RegularInfo,
   SchemaField,
 } from "../checkout/fp-checkout-type";
-import { i18n } from "@lingui/core";
 import { formatNumberSpaced } from "../../utils/formatByTemplate";
 import { z } from "zod";
+import { getI18n } from "@/locales/i18nInstance";
 
 /**
  * 使用 Zod 定义表单字段验证规则
  */
 export const createFormSchema = () => {
+  const i18n = getI18n();
   // 基础字段验证
   const baseFields = {
     // 个人信息字段
     holderName: z.string().min(1, {
-      message: i18n._({ id: "form.field_required" }) || "持卡人姓名不能为空",
+      message: i18n.t({ id: "form.field_required" }) || "持卡人姓名不能为空",
     }),
     firstName: z.string().min(1, {
-      message: i18n._({ id: "form.field_required" }) || "名字不能为空",
+      message: i18n.t({ id: "form.field_required" }) || "名字不能为空",
     }),
     lastName: z.string().min(1, {
-      message: i18n._({ id: "form.field_required" }) || "姓氏不能为空",
+      message: i18n.t({ id: "form.field_required" }) || "姓氏不能为空",
     }),
 
     // 联系方式字段
     email: z.string().email({
       message:
-        i18n._({
+        i18n.t({
           id: "form.email_invalid",
           message: "Email is invalid!",
         }) || "请输入有效的邮箱地址",
     }),
     telephoneNumber: z.string().min(1, {
-      message: i18n._({ id: "form.field_required" }) || "电话号码不能为空",
+      message: i18n.t({ id: "form.field_required" }) || "电话号码不能为空",
     }),
 
     // 位置信息
     country: z.string().min(1, {
-      message: i18n._({ id: "form.field_required" }) || "国家不能为空",
+      message: i18n.t({ id: "form.field_required" }) || "国家不能为空",
     }),
 
     // 信用卡字段
     cardNumber: z.string().regex(/^\d{14,19}$/, {
       message:
-        i18n._({
+        i18n.t({
           id: "form.card_number_invalid",
           message: "Card number is invalid!",
         }) || "请输入有效的卡号 (14-19位数字)",
@@ -54,7 +55,7 @@ export const createFormSchema = () => {
     // 银行账号字段
     bankAccountNumber: z.string().regex(/^\d{14,19}$/, {
       message:
-        i18n._({
+        i18n.t({
           id: "form.card_number_invalid",
           message: "Card number is invalid!",
         }) || "请输入有效的银行账号 (14-19位数字)",
@@ -63,7 +64,7 @@ export const createFormSchema = () => {
     // 安全码/CVV/CVC (统一为一个字段)
     cvv: z.string().regex(/^\d{3,4}$/, {
       message:
-        i18n._({
+        i18n.t({
           id: "form.cvv_invalid",
           message: "CVV is invalid!",
         }) || "请输入有效的CVV (3-4位数字)",
@@ -72,7 +73,7 @@ export const createFormSchema = () => {
     // 到期日期相关字段
     expiryMonth: z.string().regex(/^(0[1-9]|1[0-2])$/, {
       message:
-        i18n._({
+        i18n.t({
           id: "form.month_invalid",
           message: "Month is invalid!",
         }) || "请输入有效的到期月份 (01-12)",
@@ -90,7 +91,7 @@ export const createFormSchema = () => {
         },
         {
           message:
-            i18n._({
+            i18n.t({
               id: "form.year_invalid",
               message: "Year is invalid!",
             }) || "请输入有效的到期年份",
@@ -107,7 +108,7 @@ export const createFormSchema = () => {
       return (
         baseFields[fieldKey as keyof typeof baseFields] ||
         z.string().min(1, {
-          message: i18n._({ id: "form.field_required" }) || "此字段不能为空",
+          message: i18n.t({ id: "form.field_required" }) || "此字段不能为空",
         })
       );
     },

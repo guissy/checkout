@@ -1,7 +1,7 @@
 // 'use client';
 
 import React, { use, Suspense } from "react";
-import { PayToIcon } from "checkout-ui";
+import { LoadingPage, PayToIcon } from "checkout-ui";
 import { camelCase, capitalize } from "lodash";
 import { useLingui } from "@lingui/react";
 import { TradeStatusCN } from "@/enums/TradeStatus";
@@ -71,7 +71,7 @@ const Status: React.FC<{
   searchParams: SearchParams;
 }> = (props) => {
   return (
-    <Suspense fallback={<div>加载中...</div>}>
+    <Suspense fallback={<LoadingPage />}>
       <StatusContent searchParams={props.searchParams} />
     </Suspense>
   );

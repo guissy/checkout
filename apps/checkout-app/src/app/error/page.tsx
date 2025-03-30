@@ -1,5 +1,8 @@
 import React, { Suspense } from "react";
 import ErrorRetry from "./ErrorRetry";
+import { initLingui } from "@/locales/initLingui";
+import Cookies from "js-cookie";
+import { LoadingPage } from "checkout-ui";
 
 // 创建内容组件来处理异步逻辑
 async function ErrorContent(props: {
@@ -24,8 +27,9 @@ async function ErrorContent(props: {
 export default function ErrorPage(props: {
   searchParams: Promise<{ token: string; reference: string; detail: string }>;
 }) {
+  initLingui(Cookies.get("lang") || "zh");
   return (
-    <Suspense fallback={<div>加载中...</div>}>
+    <Suspense fallback={<LoadingPage />}>
       <ErrorContent searchParams={props.searchParams} />
     </Suspense>
   );
