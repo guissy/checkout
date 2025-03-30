@@ -20,7 +20,6 @@ export function LinguiClientProvider({
       messages: { [initialLocale]: initialMessages },
     });
   });
-  console.log("i18n 🐌🐌🐌", i18n);
   i18n.activate(initialLocale);
   setI18n(i18n);
   return <I18nProvider i18n={i18n}>{children}</I18nProvider>;

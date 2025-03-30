@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { i18n } from "@lingui/core";
 import fetchOrderStatus, { OrderStatus } from "../api/fetchOrderStatus";
 import { decryptAES } from "./cryptoAES";
 import { isDebug } from "./isDev";
@@ -7,6 +6,7 @@ import gotoTimeout from "./gotoTimeout";
 import { useRouter } from "next/navigation";
 import { useOrderStatusStream } from "@/api/fetchOrderStatusStream";
 import { setStorage } from "@/lib/storage";
+import { useLingui } from "@lingui/react";
 
 // 支付状态轮询 Hook
 export const useOrderStatusPolling = (
@@ -14,6 +14,7 @@ export const useOrderStatusPolling = (
   handleSuccess: (data: OrderStatus, reference: string) => void,
   ctx: string,
 ) => {
+  const { i18n } = useLingui();
   const [reloadKey, setReloadKey] = useState(0);
   const [startTime] = useState(Date.now());
   const loadingRef = useRef(false);
@@ -69,6 +70,7 @@ export const useOrderStatusPolling = (
       }
     } catch (error) {
       console.error("Order status processing error:", error);
+
       handleError(i18n.t("error.unknown"), reference);
     } finally {
       loadingRef.current = false;

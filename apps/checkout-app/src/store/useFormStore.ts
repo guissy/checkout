@@ -15,13 +15,13 @@ import lodashSet from "lodash/set";
 import { setFormElementsDisabled } from "../utils/formMouse";
 import { reportError, reportEvent } from "../api/reportArms";
 import { isDebug } from "../utils/isDev";
-import { i18n } from "@lingui/core";
 import { getStorage, removeStorage, setStorage } from "../lib/storage";
 import { getReferenceValue } from "../app/checkout/referenceUtil";
 import AlipayType from "../app/(method)/AlipayType";
 import type { CountryInfo } from "../api/fetchCountryInfoList";
 import { StoreApi } from "zustand/vanilla";
 import type { PersistOptions } from "zustand/middleware/persist";
+import { getI18n } from "@/locales/i18nInstance";
 
 // 常量 - providerId为number类型
 const NMI_PROVIDER_ID = 158; // 假设的数值，请替换为实际值
@@ -119,6 +119,7 @@ const createFormStore = (initialToken: string = "") =>
         setPayOrder: (payOrder) => set({ payOrder }), // 设置payOrder的方法
 
         handleFormSubmit: async (e, options) => {
+          const i18n = getI18n();
           e.preventDefault();
           e.stopPropagation();
 

@@ -66,7 +66,6 @@ const LoadingSpinner = () => (
 
 const FpCheckout: React.FC = () => {
   const { i18n } = useLingui();
-  console.log("i18n ⇨ ⇨ ⇨ ⇨ ⇨ ⇨🐶🐶🐶");
   // i18n.activate("zh");
   // 使用状态上下文
   const {

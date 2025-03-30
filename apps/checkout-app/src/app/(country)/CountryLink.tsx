@@ -5,8 +5,7 @@ import type { CountryInfo } from "../../api/fetchCountryInfoList.ts";
 import clsx from "clsx";
 import type { FC } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Trans } from "@lingui/react";
-import { i18n } from "@lingui/core";
+import { Trans, useLingui } from "@lingui/react";
 
 export const CountryLink: FC<{
   country?: CountryInfo;
@@ -15,7 +14,7 @@ export const CountryLink: FC<{
 }> = ({ country, openAreaDialog, className }) => {
   const [isOverflowed, setIsOverflowed] = useState(false);
   const textRef = useRef<HTMLHeadingElement>(null);
-
+  const { i18n } = useLingui();
   // 使用 ResizeObserver 检测文本溢出
   useEffect(() => {
     const observer = new ResizeObserver((entries) => {

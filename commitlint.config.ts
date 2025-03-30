@@ -20,7 +20,7 @@ const configuration: UserConfig = {
         "revert", // 恢复先前的提交
       ],
     ],
-    "scope-enum": [2, "always", ["core", "ui", "api", "docs", "tests"]],
+    // "scope-enum": [2, "always", ["core", "ui", "api", "docs", "tests"]],
   },
 };
 

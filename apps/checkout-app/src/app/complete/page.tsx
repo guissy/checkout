@@ -1,17 +1,17 @@
 "use client";
 
 import React, { Suspense, useState } from "react";
-import { i18n } from "@lingui/core";
 import { useRouter, useSearchParams } from "next/navigation";
 import { LoadingPage as Loading, SpinnerCycle } from "checkout-ui";
 import { useOrderStatusPolling } from "../../utils/useOrderStatusPolling";
+import { useLingui } from "@lingui/react";
 
 const Complete: React.FC = () => {
   const searchParams = useSearchParams();
   const reference = searchParams.get("reference");
   const { push: navigate } = useRouter();
   const [loading, setLoading] = useState(true);
-
+  const { i18n } = useLingui();
   useOrderStatusPolling(
     reference!,
     () => {

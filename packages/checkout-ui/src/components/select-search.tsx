@@ -1,8 +1,6 @@
 import clsx from 'clsx';
 import type { FC, HTMLAttributes, PropsWithChildren } from 'react';
-import React from 'react';
 import Input from './input/Input';
-// import { i18n } from '@lingui/core';
 
 interface Props {
   value: string;
